@@ -17,13 +17,6 @@ const MY_FAVORITE_BRANDS = [{
 console.table(MY_FAVORITE_BRANDS);
 console.log(MY_FAVORITE_BRANDS[0]);
 
-const cheapestTShirt = [{
-  'name': 'T-shirt',
-  'url': 'https://adresse.paris/t-shirts-et-polos/4238-t-shirt-ranelagh-1300000262026.html'
-}];
-
-console.log(cheapestTShirt);
-
 /**
  * 🌱
  * Let's go with a very very simple first todo
@@ -36,6 +29,13 @@ console.log(cheapestTShirt);
 // 1. Create a new variable and assign it the link of the cheapest t-shirt
 // I can find on these e-shops
 // 2. Log the variable
+
+const cheapestTShirt = [{
+  'name': 'T-shirt',
+  'url': 'https://adresse.paris/t-shirts-et-polos/4238-t-shirt-ranelagh-1300000262026.html'
+}];
+
+console.log(cheapestTShirt);
 
 
 
