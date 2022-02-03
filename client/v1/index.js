@@ -67,11 +67,32 @@ for (const i in marketplace){
   brands.push(marketplace[i]['brand']);
 }
 console.log(brands);
+console.log(brands.length);
 
 // 🎯 TODO: Sort by price
 // 1. Create a function to sort the marketplace products by price
 // 2. Create a variable and assign it the list of products by price from lowest to highest
 // 3. Log the variable
+
+function Compare_prices(a,b){
+  if(a['price']<b['price']){
+    return -1;
+  }
+  else if(a['price']>b['price']){
+    return 1;
+  }
+  else{
+    return 0;
+  }
+}
+
+var marketplace_by_price = marketplace.slice() // copy of marketplace
+marketplace_by_price.sort(Compare_prices);
+console.log(marketplace_by_price);
+console.log(marketplace_by_price[0]['price']);
+console.log(marketplace_by_price[1]['price']);
+console.log(marketplace_by_price[2]['price']);
+console.log(marketplace_by_price[100]['price']);
 
 
 // 🎯 TODO: Sort by date
@@ -79,10 +100,32 @@ console.log(brands);
 // 2. Create a variable and assign it the list of products by date from recent to old
 // 3. Log the variable
 
+function Compare_dates(a,b){
+  if(a['date']<b['date']){
+    return -1;
+  }
+  else if(a['date']>b['date']){
+    return 1;
+  }
+  else{
+    return 0;
+  }
+}
+
+var marketplace_by_date = marketplace.slice()
+marketplace_by_date.sort(Compare_dates);
+console.log(marketplace_by_date);
+console.log(marketplace_by_date[0]['date']);
+console.log(marketplace_by_date[1]['date']);
+console.log(marketplace_by_date[2]['date']);
+console.log(marketplace_by_date[100]['date']);
 
 // 🎯 TODO: Filter a specific price range
 // 1. Filter the list of products between 50€ and 100€
 // 2. Log the list
+
+var marketplace_filtered_by_price=marketplace.filter(x=>(x['price']>=50 && x['price']<=100));
+console.log(marketplace_filtered_by_price);
 
 
 // 🎯 TODO: Average price
@@ -90,7 +133,12 @@ console.log(brands);
 // 2. Log the average
 
 
-
+var average = 0;
+for(let i in marketplace){
+  average+=marketplace[i]['price'];
+}
+average/=marketplace.length;
+console.log(average);
 
 
 /**
