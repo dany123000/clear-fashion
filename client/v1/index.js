@@ -211,8 +211,13 @@ console.log(brands_dict['1083'][35]['date']);
 // 1. Compute the p90 price value of each brand
 // The p90 value (90th percentile) is the lower value expected to be exceeded in 90% of the products
 
-
-
+for(let i in brands_dict){
+  brands_dict[i].sort(Compare_prices);
+  let len = parseFloat(Object.keys(brands_dict[i]).length);
+  len*= 0.9;
+  brands_dict[i]['p90'] = brands_dict[i][parseInt(len)]['price'];
+}
+console.log(brands_dict);
 
 
 /**
@@ -283,24 +288,53 @@ const COTELE_PARIS = [
   }
 ]
 
+console.log(COTELE_PARIS);
+
 // 🎯 TODO: New released products
 // // 1. Log if we have new products only (true or false)
 // // A new product is a product `released` less than 2 weeks.
 
+const today = new Date();
+const day = new Date(today);
+day.setDate(day.getDate() - 14);
+var new_released = true;
+for(let i in COTELE_PARIS){
+  let date = Date.parse(COTELE_PARIS[i]['released']);
+  if(date < Date.parse(day)){
+    new_released = false;
+  }
+}
+console.log(new_released);
 
 // 🎯 TODO: Reasonable price
 // // 1. Log if coteleparis is a reasonable price shop (true or false)
 // // A reasonable price if all the products are less than 100€
 
+var reasonable_price = true;
+for(let i in COTELE_PARIS){
+  if(COTELE_PARIS[i]['price'] > 100){
+    reasonable_price = false;
+  }
+}
+console.log(reasonable_price);
 
 // 🎯 TODO: Find a specific product
 // 1. Find the product with the uuid `b56c6d88-749a-5b4c-b571-e5b5c6483131`
 // 2. Log the product
 
+var product = COTELE_PARIS.find(x=>x['uuid']=='b56c6d88-749a-5b4c-b571-e5b5c6483131');
+console.log(product);
 
 // 🎯 TODO: Delete a specific product
 // 1. Delete the product with the uuid `b56c6d88-749a-5b4c-b571-e5b5c6483131`
 // 2. Log the new list of product
+
+for(let i in COTELE_PARIS){
+  if(COTELE_PARIS[i]['uuid']=='b56c6d88-749a-5b4c-b571-e5b5c6483131'){
+    COTELE_PARIS.pop(i);
+  }
+}
+console.log(COTELE_PARIS);
 
 // 🎯 TODO: Save the favorite product
 let blueJacket = {
@@ -317,6 +351,10 @@ jacket.favorite = true;
 
 // 1. Log `blueJacket` and `jacket` variables
 // 2. What do you notice?
+console.log(blueJacket);
+console.log(jacket);
+
+// They are the same : both contain 'favorite'.
 
 blueJacket = {
   'link': 'https://coteleparis.com/collections/tous-les-produits-cotele/products/la-veste-bleu-roi',
@@ -325,10 +363,11 @@ blueJacket = {
 };
 
 // 3. Update `jacket` property with `favorite` to true WITHOUT changing blueJacket properties
+jacket.favorite = true;
+console.log(blueJacket);
+console.log(jacket);
 
-
-
-
+// They are not the same.
 
 /**
  * 🎬
@@ -339,3 +378,6 @@ blueJacket = {
 // 🎯 TODO: Save in localStorage
 // 1. Save MY_FAVORITE_BRANDS in the localStorage
 // 2. log the localStorage
+window.localStorage.setItem('MY_FAVORITE_BRANDS', MY_FAVORITE_BRANDS);
+console.log(window.localStorage);
+window.localStorage.removeItem(MY_FAVORITE_BRANDS);
