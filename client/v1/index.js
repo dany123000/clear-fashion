@@ -113,7 +113,7 @@ function Compare_dates(a,b){
 }
 
 var marketplace_by_date = marketplace.slice()
-marketplace_by_date.sort(Compare_dates);
+marketplace_by_date.sort(Compare_dates).reverse();
 console.log(marketplace_by_date);
 console.log(marketplace_by_date[0]['date']);
 console.log(marketplace_by_date[1]['date']);
@@ -164,17 +164,39 @@ console.log(average);
 // 2. Log the variable
 // 3. Log the number of products by brands
 
+var brands_dict = {};
+for(let i in marketplace){
+  if(marketplace[i]['brand'] in brands_dict){
+    brands_dict[marketplace[i]['brand']].push(marketplace[i]);
+  }
+  else{
+    brands_dict[marketplace[i]['brand']] = [marketplace[i]];
+  }
+}
+
+console.log(brands_dict);
 
 // 🎯 TODO: Sort by price for each brand
 // 1. For each brand, sort the products by price, from highest to lowest
 // 2. Log the sort
 
+for(let i in brands_dict){
+  brands_dict[i].sort(Compare_prices).reverse();
+}
+console.log(brands_dict);
+console.log(brands_dict['1083'][0]['price']);
+console.log(brands_dict['1083'][35]['price']);
 
 // 🎯 TODO: Sort by date for each brand
 // 1. For each brand, sort the products by date, from old to recent
 // 2. Log the sort
 
-
+for(let i in brands_dict){
+  brands_dict[i].sort(Compare_dates);
+}
+console.log(brands_dict);
+console.log(brands_dict['1083'][0]['date']);
+console.log(brands_dict['1083'][35]['date']);
 
 
 
