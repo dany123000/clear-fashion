@@ -12,6 +12,7 @@ var selectedBrand='All';
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
 var selectBrand = document.querySelector('#brand-select');
+const selectRecent = document.querySelector('#recent');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
 
@@ -105,7 +106,7 @@ const renderProducts = products => {
  const renderBrands = brands => {
   const options = Array.from(
     brands,
-    (value, index) =>  `<option value="${value}">${value}</option>`
+    (value) =>  `<option value="${value}">${value}</option>`
   ).join('');
   selectBrand.innerHTML = options;
   selectBrand = "All";
@@ -153,6 +154,12 @@ const render = (products, pagination) => {
 
 selectBrand.addEventListener('change', async (event) => {
   selectedBrand = event.target.value;
+  const products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
+  setCurrentProducts(products);
+  render(currentProducts, currentPagination);
+});
+
+selectRecent.addEventListener('click', async (event) => {
   const products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
