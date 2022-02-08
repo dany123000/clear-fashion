@@ -109,8 +109,15 @@ const render = (products, pagination) => {
 /**
  * Select the number of products to display
  */
-selectShow.addEventListener('change', async (event) => {
+ selectShow.addEventListener('change', async (event) => {
   const products = await fetchProducts(currentPagination.currentPage, parseInt(event.target.value));
+
+  setCurrentProducts(products);
+  render(currentProducts, currentPagination);
+});
+
+selectPage.addEventListener('change', async (event) => {
+  const products = await fetchProducts(parseInt(event.target.value), currentProducts.length);
 
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
