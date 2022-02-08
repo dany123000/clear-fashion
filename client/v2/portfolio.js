@@ -6,11 +6,12 @@ let currentProducts = [];
 let currentPagination = {};
 var allProducts=[];
 var allBrands=new Set();
+var selectedBrand='All';
 
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
-const selectBrand = document.querySelector('#brand-select');
+var selectBrand = document.querySelector('#brand-select');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
 
@@ -28,14 +29,23 @@ const setCurrentProducts = ({result, meta}) => {
  * Fetch products from api
  * @param  {Number}  [page=1] - current page to fetch
  * @param  {Number}  [size=12] - size of the page
+ * @param  {String}  [brand="All"] - selected brand
  * @return {Object}
  */
-const fetchProducts = async (page = 1, size = 12) => {
+const fetchProducts = async (page = 1, size = 12, brand = 'All') => {
   try {
-    const response = await fetch(
-      `https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
+    var response='';
+    if(brand=='All'){
+      response = await fetch(
+        `https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
     );
-    const body = await response.json();
+    }
+    else{
+      response = await fetch(
+        `https://clear-fashion-api.vercel.app?page=${page}&size=${size}&brand=${brand}`
+          );
+    }
+  const body = await response.json();
 
     if (body.success !== true) {
       console.error(body);
@@ -98,6 +108,7 @@ const renderProducts = products => {
     (value, index) =>  `<option value="${value}">${value}</option>`
   ).join('');
   selectBrand.innerHTML = options;
+  selectBrand = "All";
 };
 
 /**
@@ -125,7 +136,7 @@ const render = (products, pagination) => {
  * Select the number of products to display
  */
  selectShow.addEventListener('change', async (event) => {
-  const products = await fetchProducts(currentPagination.currentPage, parseInt(event.target.value));
+  const products = await fetchProducts(currentPagination.currentPage, parseInt(event.target.value), selectedBrand);
 
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
@@ -135,13 +146,16 @@ const render = (products, pagination) => {
  * Select the page to display
  */
  selectPage.addEventListener('change', async (event) => {
-  const products = await fetchProducts(parseInt(event.target.value), currentPagination.length);
+  const products = await fetchProducts(parseInt(event.target.value), currentPagination.length, selectedBrand);
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
 });
 
 selectBrand.addEventListener('change', async (event) => {
-  const products = await fetchProducts();
+  selectedBrand = event.target.value;
+  const products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
+  setCurrentProducts(products);
+  render(currentProducts, currentPagination);
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
