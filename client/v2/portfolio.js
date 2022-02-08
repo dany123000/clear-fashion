@@ -4,10 +4,13 @@
 // current products on the page
 let currentProducts = [];
 let currentPagination = {};
+var allProducts=[];
+var allBrands=new Set();
 
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
+const selectBrand = document.querySelector('#brand-select');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
 
@@ -75,15 +78,26 @@ const renderProducts = products => {
  * Render page selector
  * @param  {Object} pagination
  */
-const renderPagination = pagination => {
+ const renderPagination = pagination => {
   const {currentPage, pageCount} = pagination;
   const options = Array.from(
     {'length': pageCount},
     (value, index) => `<option value="${index + 1}">${index + 1}</option>`
   ).join('');
-
   selectPage.innerHTML = options;
   selectPage.selectedIndex = currentPage - 1;
+};
+
+/**
+ * Render brands selector
+ * @param  {Object} brands
+ */
+ const renderBrands = brands => {
+  const options = Array.from(
+    brands,
+    (value, index) =>  `<option value="${value}">${value}</option>`
+  ).join('');
+  selectBrand.innerHTML = options;
 };
 
 /**
@@ -98,6 +112,7 @@ const renderIndicators = pagination => {
 
 const render = (products, pagination) => {
   renderProducts(products);
+  renderBrands(allBrands);
   renderPagination(pagination);
   renderIndicators(pagination);
 };
@@ -116,16 +131,28 @@ const render = (products, pagination) => {
   render(currentProducts, currentPagination);
 });
 
-selectPage.addEventListener('change', async (event) => {
-  const products = await fetchProducts(parseInt(event.target.value), currentProducts.length);
-
+/**
+ * Select the page to display
+ */
+ selectPage.addEventListener('change', async (event) => {
+  const products = await fetchProducts(parseInt(event.target.value), currentPagination.length);
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
 });
 
+selectBrand.addEventListener('change', async (event) => {
+  const products = await fetchProducts();
+});
+
 document.addEventListener('DOMContentLoaded', async () => {
   const products = await fetchProducts();
-
+  allProducts = await fetchProducts(1,139);
+  console.log(allProducts);
+  allBrands.add("All");
+  for(let i in allProducts.result){
+    allBrands.add(allProducts.result[i].brand);
+  }
+  console.log(allBrands);
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
 });
