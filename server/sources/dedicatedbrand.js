@@ -16,13 +16,19 @@ const parse = data => {
         .text()
         .trim()
         .replace(/\s/g, ' ');
-      const price = parseInt(
+        const price = parseInt(
+          $(element)
+            .find('.productList-price')
+            .text()
+        );
+        const link = 
+        'https://www.dedicatedbrand.com/en/men/news'+
         $(element)
-          .find('.productList-price')
-          .text()
-      );
-
-      return {name, price};
+            .find('.productList-link')[1]
+            .attribs.href
+        ;
+    
+      return {name, price, link};
     })
     .get();
 };
