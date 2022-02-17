@@ -6,10 +6,11 @@ const cheerio = require('cheerio');
  * @param  {String} data - html response
  * @return {Array} products
  */
-const parse = data => {
+const parse = (data, num = 0) => {
   const $ = cheerio.load(data);
 
-  return $('.productList-container .productList')
+  if(num==0){
+    return $('.productList-container .productList')
     .map((i, element) => {
       const name = $(element)
         .find('.productList-title')
@@ -31,6 +32,31 @@ const parse = data => {
       return {name, price, link};
     })
     .get();
+  }
+
+  if(num==1){
+    return $('.item')
+    .map((i, element) => {
+      const name = $(element)
+        .find('.product-name')
+        .text()
+        .trim()
+        .replace(/\s/g, ' ');
+        const price = parseInt(
+          $(element)
+            .find('.price')
+            .text()
+        );
+        const link = 
+        'https://www.montlimart.com/polos-t-shirts.html'+
+        $(element)
+            .find('.product-name').attr('href')
+        ;
+    
+      return {name, price, link};
+    })
+    .get();
+  }
 };
 
 /**
@@ -44,8 +70,12 @@ module.exports.scrape = async url => {
 
     if (response.ok) {
       const body = await response.text();
-
-      return parse(body);
+      if(url.includes('dedicatedbrand')){
+        return parse(body, 0);
+      }
+      if(url.includes('montlimart')){
+        return parse(body, 1);
+      }
     }
 
     console.error(response);
