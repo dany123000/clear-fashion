@@ -48,9 +48,8 @@ const parse = (data, num = 0) => {
             .text()
         );
         const link = 
-        'https://www.montlimart.com/polos-t-shirts.html'+
         $(element)
-            .find('.product-name').attr('href')
+            .find('.product-name a').attr('href')
         ;
     
       return {name, price, link};
