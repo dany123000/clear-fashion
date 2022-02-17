@@ -159,8 +159,23 @@ selectBrand.addEventListener('change', async (event) => {
   render(currentProducts, currentPagination);
 });
 
+function Compare_dates(a,b){
+  if(a['released']<b['released']){
+    return -1;
+  }
+  else if(a['released']>b['released']){
+    return 1;
+  }
+  else{
+    return 0;
+  }
+}
+
 selectRecent.addEventListener('click', async (event) => {
-  const products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
+  var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
+  console.log(products)
+  products['result'].sort(Compare_dates);
+  console.log(products)
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
 });
