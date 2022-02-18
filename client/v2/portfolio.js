@@ -5,13 +5,14 @@
 let currentProducts = [];
 let currentPagination = {};
 var allProducts=[];
-var allBrands=new Set();
-var selectedBrand='All';
+var allBrands=[];
+var selectedBrand="All";
+var currentBrand=0;
 
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
-var selectBrand = document.querySelector('#brand-select');
+const selectBrand = document.querySelector('#brand-select');
 const selectRecent = document.querySelector('#recent');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
@@ -109,7 +110,7 @@ const renderProducts = products => {
     (value) =>  `<option value="${value}">${value}</option>`
   ).join('');
   selectBrand.innerHTML = options;
-  selectBrand = "All";
+  selectBrand.selectedIndex = currentBrand;
 };
 
 /**
@@ -154,8 +155,11 @@ const render = (products, pagination) => {
 
 selectBrand.addEventListener('change', async (event) => {
   selectedBrand = event.target.value;
+  console.log(selectedBrand)
   const products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
   setCurrentProducts(products);
+  currentBrand = allBrands.indexOf(selectedBrand);
+  console.log(currentBrand, selectedBrand)
   render(currentProducts, currentPagination);
 });
 
@@ -184,10 +188,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   const products = await fetchProducts();
   allProducts = await fetchProducts(1,139);
   console.log(allProducts);
-  allBrands.add("All");
+  allBrands.push("All");
   for(let i in allProducts.result){
-    allBrands.add(allProducts.result[i].brand);
+    allBrands.push(allProducts.result[i].brand);
   }
+  allBrands=Array.from(new Set(allBrands));
   console.log(allBrands);
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
