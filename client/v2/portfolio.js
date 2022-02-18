@@ -9,12 +9,14 @@ var allBrands=[];
 var selectedBrand="All";
 var currentBrand=0;
 var recentlyReleased=false;
+var cheap=false;
 
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
 const selectBrand = document.querySelector('#brand-select');
 const selectRecent = document.querySelector('#recent');
+const selectPrice = document.querySelector('#price');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
 
@@ -182,6 +184,19 @@ selectRecent.addEventListener('click', async (event) => {
   }
   else{
     recentlyReleased=false;
+  }
+  setCurrentProducts(products);
+  render(currentProducts, currentPagination);
+});
+
+selectPrice.addEventListener('click', async (event) => {
+  var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
+  if(!cheap){
+    products['result']=products['result'].filter(x=>x['price']<50);
+    cheap=true;
+  }
+  else{
+    cheap=false;
   }
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
