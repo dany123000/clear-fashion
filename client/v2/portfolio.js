@@ -8,6 +8,7 @@ var allProducts=[];
 var allBrands=[];
 var selectedBrand="All";
 var currentBrand=0;
+var recentlyReleased=false;
 
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
@@ -155,11 +156,9 @@ const render = (products, pagination) => {
 
 selectBrand.addEventListener('change', async (event) => {
   selectedBrand = event.target.value;
-  console.log(selectedBrand)
   const products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
   setCurrentProducts(products);
   currentBrand = allBrands.indexOf(selectedBrand);
-  console.log(currentBrand, selectedBrand)
   render(currentProducts, currentPagination);
 });
 
@@ -177,12 +176,25 @@ function Compare_dates(a,b){
 
 selectRecent.addEventListener('click', async (event) => {
   var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
+  if(!recentlyReleased){
+    products['result']=products['result'].filter(x=>Date.parse(Date())-Date.parse(x['released'])<14*24*3600*1000);
+    recentlyReleased=true;
+  }
+  else{
+    recentlyReleased=false;
+  }
+  setCurrentProducts(products);
+  render(currentProducts, currentPagination);
+});
+
+/*sortByRecent.addEventListener('click', async (event) => {
+  var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
   console.log(products)
   products['result'].sort(Compare_dates);
   console.log(products)
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
-});
+});*/
 
 document.addEventListener('DOMContentLoaded', async () => {
   const products = await fetchProducts();
