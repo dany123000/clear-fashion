@@ -16,9 +16,10 @@ const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
 const selectBrand = document.querySelector('#brand-select');
 const selectRecent = document.querySelector('#recent');
-const selectPrice = document.querySelector('#price');
+const selectCheap = document.querySelector('#cheap');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
+const sort = document.querySelector('#sort-select');
 
 /**
  * Set global value
@@ -164,11 +165,23 @@ selectBrand.addEventListener('change', async (event) => {
   render(currentProducts, currentPagination);
 });
 
-function Compare_dates(a,b){
+function CompareDates(a,b){
   if(a['released']<b['released']){
     return -1;
   }
   else if(a['released']>b['released']){
+    return 1;
+  }
+  else{
+    return 0;
+  }
+}
+
+function ComparePrices(a,b){
+  if(a['price']<b['price']){
+    return -1;
+  }
+  else if(a['price']>b['price']){
     return 1;
   }
   else{
@@ -189,7 +202,7 @@ selectRecent.addEventListener('click', async (event) => {
   render(currentProducts, currentPagination);
 });
 
-selectPrice.addEventListener('click', async (event) => {
+selectCheap.addEventListener('click', async (event) => {
   var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
   if(!cheap){
     products['result']=products['result'].filter(x=>x['price']<50);
@@ -202,14 +215,44 @@ selectPrice.addEventListener('click', async (event) => {
   render(currentProducts, currentPagination);
 });
 
-/*sortByRecent.addEventListener('click', async (event) => {
+sort.addEventListener('change', async(event) => {
+  if(event.target.value=='price-asc'){
+    sortByPrice(false);
+  }
+  if(event.target.value=='price-desc'){
+    sortByPrice(true);
+  }
+  if(event.target.value=='date-asc'){
+    sortByDate(false);
+  }
+  if(event.target.value=='date-desc'){
+    sortByDate(true);
+  }
+})
+
+const sortByPrice = async (desc) => {
   var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
-  console.log(products)
-  products['result'].sort(Compare_dates);
-  console.log(products)
+  if(!desc){
+    products['result'].sort(ComparePrices);
+  }
+  else{
+    products['result'].sort(ComparePrices).reverse();
+  }
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
-});*/
+};
+
+const sortByDate = async (desc) => {
+  var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
+  if(!desc){
+    products['result'].sort(CompareDates);
+  }
+  else{
+    products['result'].sort(CompareDates).reverse();
+  }
+  setCurrentProducts(products);
+  render(currentProducts, currentPagination);
+};
 
 document.addEventListener('DOMContentLoaded', async () => {
   const products = await fetchProducts();
