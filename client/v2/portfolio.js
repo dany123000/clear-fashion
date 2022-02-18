@@ -189,7 +189,7 @@ function ComparePrices(a,b){
   }
 }
 
-selectRecent.addEventListener('click', async (event) => {
+selectRecent.addEventListener('click', async () => {
   var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
   if(!recentlyReleased){
     products['result']=products['result'].filter(x=>Date.parse(Date())-Date.parse(x['released'])<14*24*3600*1000);
@@ -202,7 +202,7 @@ selectRecent.addEventListener('click', async (event) => {
   render(currentProducts, currentPagination);
 });
 
-selectCheap.addEventListener('click', async (event) => {
+selectCheap.addEventListener('click', async () => {
   var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
   if(!cheap){
     products['result']=products['result'].filter(x=>x['price']<50);
