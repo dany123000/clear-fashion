@@ -10,6 +10,7 @@ var selectedBrand="All";
 var currentBrand=0;
 var recentlyReleased=false;
 var cheap=false;
+var onlyFavorites=false;
 var newProducts=[];
 var p50=0;
 var p90=0;
@@ -34,6 +35,7 @@ const spanp50 = document.querySelector('#p50');
 const spanp90 = document.querySelector('#p90');
 const spanp95 = document.querySelector('#p95');
 const spanLastRelease = document.querySelector('#lastRelease');
+const favoritesFilter = document.querySelector('#favorites-filter');
 
 /**
  * Set global value
@@ -80,14 +82,15 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All') => {
 };
 
 function Favorite(uuid){
-  if(!favorites.includes(uuid)){
-    favorites.push(uuid);
+  if(!favorites.find(x => x['uuid']==uuid)){
+    favorites.push(
+      allProducts['result'].find(x => x['uuid']==uuid)
+    );
   }
   else{
-    favorites.splice(favorites.indexOf(uuid),1);
+    favorites=favorites.filter(x => x['uuid']!==uuid);
   }
   render(currentProducts, currentPagination);
-  console.log(favorites);
 }
 
 /**
@@ -114,11 +117,16 @@ const renderProducts = (products, setFavorites=false) => {
 
   div.innerHTML = template;
   fragment.appendChild(div);
-  if(setFavorites==false){
-    sectionProducts.innerHTML = '<h2>Products</h2>';
-    sectionProducts.appendChild(fragment);  
+  if(!setFavorites){
+    if(onlyFavorites){
+      sectionProducts.innerHTML = '';
+    }
+    else{
+      sectionProducts.innerHTML = '<h2>Products</h2>';
+      sectionProducts.appendChild(fragment);    
+    }
   }
-  else{
+  if(setFavorites){
     sectionFavorites.innerHTML = '<h2>Favorites</h2>';
     sectionFavorites.appendChild(fragment);
   }
@@ -270,6 +278,11 @@ sort.addEventListener('change', async(event) => {
   if(event.target.value=='date-desc'){
     sortByDate(true);
   }
+})
+
+favoritesFilter.addEventListener('click', async () => {
+  onlyFavorites = !onlyFavorites;
+  render(currentProducts, currentPagination);
 })
 
 const sortByPrice = async (desc) => {
