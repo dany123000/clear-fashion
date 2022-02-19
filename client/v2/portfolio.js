@@ -11,6 +11,12 @@ var currentBrand=0;
 var recentlyReleased=false;
 var cheap=false;
 var newProducts=[];
+var p50=0;
+var p90=0;
+var p95=0;
+var lastRelease = Date();
+var allProductsByPrice=[];
+var allProductsByDate=[];
 
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
@@ -22,6 +28,10 @@ const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
 const spanNbNewProducts = document.querySelector('#nbNewProducts');
 const sort = document.querySelector('#sort-select');
+const spanp50 = document.querySelector('#p50');
+const spanp90 = document.querySelector('#p90');
+const spanp95 = document.querySelector('#p95');
+const spanLastRelease = document.querySelector('#lastRelease');
 
 /**
  * Set global value
@@ -127,6 +137,10 @@ const renderIndicators = pagination => {
   const {count} = pagination;
   spanNbProducts.innerHTML = count;
   spanNbNewProducts.innerHTML = newProducts.length;
+  spanp50.innerHTML = p50;
+  spanp90.innerHTML = p90;
+  spanp95.innerHTML = p95;
+  spanLastRelease.innerHTML = lastRelease;
 };
 
 const render = (products, pagination) => {
@@ -255,22 +269,27 @@ const sortByDate = async (desc) => {
   render(currentProducts, currentPagination);
 };
 
-const NbNewProducts = async() => {
-  var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
-  products['result']=products['result'].filter(x=>Date.parse(Date())-Date.parse(x['released'])<14*24*3600*1000);
-  return products.length;
-}
-
 document.addEventListener('DOMContentLoaded', async () => {
   const products = await fetchProducts();
-  allProducts = await fetchProducts(1,139);
+  allProducts = await fetchProducts(1,10000);
   console.log(allProducts);
   allBrands.push("All");
   for(let i in allProducts.result){
     allBrands.push(allProducts.result[i].brand);
   }
   allBrands=Array.from(new Set(allBrands));
-  newProducts = products['result'].filter(x=>Date.parse(Date())-Date.parse(x['released'])<14*24*3600*1000);
+
+  newProducts = products['result'].filter(x => Date.parse(Date())-Date.parse(x['released'])<14*24*3600*1000);
+  allProductsByPrice = [...allProducts['result']];
+  allProductsByPrice.sort(ComparePrices);
+  p50 = allProductsByPrice[parseInt(allProductsByPrice.length*0.5)]['price'];
+  p90 = allProductsByPrice[parseInt(allProductsByPrice.length*0.9)]['price'];
+  p95 = allProductsByPrice[parseInt(allProductsByPrice.length*0.95)]['price'];
+
+  allProductsByDate = [...allProducts['result']];
+  allProductsByDate.sort(CompareDates).reverse();
+  lastRelease = allProductsByDate[0]['released'];
+
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
 });
