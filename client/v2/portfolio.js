@@ -17,6 +17,7 @@ var p95=0;
 var lastRelease = Date();
 var allProductsByPrice=[];
 var allProductsByDate=[];
+var favorites=[];
 
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
@@ -77,6 +78,16 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All') => {
   }
 };
 
+function Favorite(uuid){
+  if(!favorites.includes(uuid)){
+    favorites.push(uuid);
+  }
+  else{
+    favorites.splice(favorites.indexOf(uuid),1);
+  }
+  console.log(favorites);
+}
+
 /**
  * Render list of products
  * @param  {Array} products
@@ -91,6 +102,9 @@ const renderProducts = products => {
         <span>${product.brand}</span>
         <a href="${product.link}" target="_blank">${product.name}</a>
         <span>${product.price}</span>
+        <button name="favorite" id="favorite" onclick="Favorite('${product.uuid}')">
+          <span>⭐</span>
+        </button>
       </div>
     `;
     })
