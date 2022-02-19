@@ -26,6 +26,7 @@ const selectBrand = document.querySelector('#brand-select');
 const selectRecent = document.querySelector('#recent');
 const selectCheap = document.querySelector('#cheap');
 const sectionProducts = document.querySelector('#products');
+const sectionFavorites = document.querySelector('#favorites');
 const spanNbProducts = document.querySelector('#nbProducts');
 const spanNbNewProducts = document.querySelector('#nbNewProducts');
 const sort = document.querySelector('#sort-select');
@@ -85,6 +86,7 @@ function Favorite(uuid){
   else{
     favorites.splice(favorites.indexOf(uuid),1);
   }
+  render(currentProducts, currentPagination);
   console.log(favorites);
 }
 
@@ -92,28 +94,36 @@ function Favorite(uuid){
  * Render list of products
  * @param  {Array} products
  */
-const renderProducts = products => {
-  const fragment = document.createDocumentFragment();
-  const div = document.createElement('div');
-  const template = products
-    .map(product => {
-      return `
-      <div class="product" id=${product.uuid}>
-        <span>${product.brand}</span>
-        <a href="${product.link}" target="_blank">${product.name}</a>
-        <span>${product.price}</span>
-        <button name="favorite" id="favorite" onclick="Favorite('${product.uuid}')">
-          <span>⭐</span>
-        </button>
-      </div>
-    `;
-    })
-    .join('');
+const renderProducts = (products, setFavorites=false) => {
+  if(products!=null && products.length!=0){
+    const fragment = document.createDocumentFragment();
+    const div = document.createElement('div');
+    const template = products
+      .map(product => {
+        return `
+        <div class="product" id=${product.uuid}>
+          <span>${product.brand}</span>
+          <a href="${product.link}" target="_blank">${product.name}</a>
+          <span>${product.price}</span>
+          <button name="favorite" id="favorite" onclick="Favorite('${product.uuid}')">
+            <span>⭐</span>
+          </button>
+        </div>
+      `;
+      })
+      .join('');
 
-  div.innerHTML = template;
-  fragment.appendChild(div);
-  sectionProducts.innerHTML = '<h2>Products</h2>';
-  sectionProducts.appendChild(fragment);
+    div.innerHTML = template;
+    fragment.appendChild(div);
+    if(setFavorites==false){
+      sectionProducts.innerHTML = '<h2>Products</h2>';
+      sectionProducts.appendChild(fragment);  
+    }
+    else{
+      sectionFavorites.innerHTML = '<h2>Favorites</h2>';
+      sectionFavorites.appendChild(fragment);
+    }
+  }
 };
 
 /**
@@ -157,11 +167,16 @@ const renderIndicators = pagination => {
   spanLastRelease.innerHTML = lastRelease;
 };
 
+const renderFavorites = favorites => {
+  renderProducts(favorites, true);
+}
+
 const render = (products, pagination) => {
   renderProducts(products);
   renderBrands(allBrands);
   renderPagination(pagination);
   renderIndicators(pagination);
+  renderFavorites(favorites);
 };
 
 /**
