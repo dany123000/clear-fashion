@@ -95,34 +95,32 @@ function Favorite(uuid){
  * @param  {Array} products
  */
 const renderProducts = (products, setFavorites=false) => {
-  if(products!=null && products.length!=0){
-    const fragment = document.createDocumentFragment();
-    const div = document.createElement('div');
-    const template = products
-      .map(product => {
-        return `
-        <div class="product" id=${product.uuid}>
-          <span>${product.brand}</span>
-          <a href="${product.link}" target="_blank">${product.name}</a>
-          <span>${product.price}</span>
-          <button name="favorite" id="favorite" onclick="Favorite('${product.uuid}')">
-            <span>⭐</span>
-          </button>
-        </div>
-      `;
-      })
-      .join('');
+  const fragment = document.createDocumentFragment();
+  const div = document.createElement('div');
+  const template = products
+    .map(product => {
+      return `
+      <div class="product" id=${product.uuid}>
+        <span>${product.brand}</span>
+        <a href="${product.link}" target="_blank">${product.name}</a>
+        <span>${product.price}</span>
+        <button name="favorite" id="favorite" onclick="Favorite('${product.uuid}')">
+          <span>⭐</span>
+        </button>
+      </div>
+    `;
+    })
+    .join('');
 
-    div.innerHTML = template;
-    fragment.appendChild(div);
-    if(setFavorites==false){
-      sectionProducts.innerHTML = '<h2>Products</h2>';
-      sectionProducts.appendChild(fragment);  
-    }
-    else{
-      sectionFavorites.innerHTML = '<h2>Favorites</h2>';
-      sectionFavorites.appendChild(fragment);
-    }
+  div.innerHTML = template;
+  fragment.appendChild(div);
+  if(setFavorites==false){
+    sectionProducts.innerHTML = '<h2>Products</h2>';
+    sectionProducts.appendChild(fragment);  
+  }
+  else{
+    sectionFavorites.innerHTML = '<h2>Favorites</h2>';
+    sectionFavorites.appendChild(fragment);
   }
 };
 
