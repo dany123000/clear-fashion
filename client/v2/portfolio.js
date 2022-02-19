@@ -10,6 +10,7 @@ var selectedBrand="All";
 var currentBrand=0;
 var recentlyReleased=false;
 var cheap=false;
+var newProducts=[];
 
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
@@ -19,6 +20,7 @@ const selectRecent = document.querySelector('#recent');
 const selectCheap = document.querySelector('#cheap');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
+const spanNbNewProducts = document.querySelector('#nbNewProducts');
 const sort = document.querySelector('#sort-select');
 
 /**
@@ -123,8 +125,8 @@ const renderProducts = products => {
  */
 const renderIndicators = pagination => {
   const {count} = pagination;
-
   spanNbProducts.innerHTML = count;
+  spanNbNewProducts.innerHTML = newProducts.length;
 };
 
 const render = (products, pagination) => {
@@ -143,7 +145,6 @@ const render = (products, pagination) => {
  */
  selectShow.addEventListener('change', async (event) => {
   const products = await fetchProducts(currentPagination.currentPage, parseInt(event.target.value), selectedBrand);
-
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
 });
@@ -254,6 +255,12 @@ const sortByDate = async (desc) => {
   render(currentProducts, currentPagination);
 };
 
+const NbNewProducts = async() => {
+  var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
+  products['result']=products['result'].filter(x=>Date.parse(Date())-Date.parse(x['released'])<14*24*3600*1000);
+  return products.length;
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   const products = await fetchProducts();
   allProducts = await fetchProducts(1,139);
@@ -263,7 +270,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     allBrands.push(allProducts.result[i].brand);
   }
   allBrands=Array.from(new Set(allBrands));
-  console.log(allBrands);
+  newProducts = products['result'].filter(x=>Date.parse(Date())-Date.parse(x['released'])<14*24*3600*1000);
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
 });
