@@ -239,7 +239,7 @@ function ComparePrices(a,b){
   }
 }
 
-selectRecent.addEventListener('click', async () => {
+selectRecent.addEventListener('change', async () => {
   var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
   if(!recentlyReleased){
     products['result']=products['result'].filter(x=>Date.parse(Date())-Date.parse(x['released'])<14*24*3600*1000);
@@ -252,7 +252,7 @@ selectRecent.addEventListener('click', async () => {
   render(currentProducts, currentPagination);
 });
 
-selectCheap.addEventListener('click', async () => {
+selectCheap.addEventListener('change', async () => {
   var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
   if(!cheap){
     products['result']=products['result'].filter(x=>x['price']<50);
@@ -280,7 +280,7 @@ sort.addEventListener('change', async(event) => {
   }
 })
 
-favoritesFilter.addEventListener('click', async () => {
+favoritesFilter.addEventListener('change', async () => {
   onlyFavorites = !onlyFavorites;
   render(currentProducts, currentPagination);
 })
