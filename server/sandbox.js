@@ -1,21 +1,29 @@
 /* eslint-disable no-console, no-process-exit */
 const dedicatedbrand = require('./sources/dedicatedbrand');
 
-async function sandbox (eshop = 'https://www.dedicatedbrand.com/en/men/news') {
+async function sandbox () {
   try {
-    console.log(`🕵️‍♀️  browsing ${eshop} source`);
+    let websites = [];
+    websites.push('https://www.dedicatedbrand.com/en/men/news');
+    websites.push('https://www.montlimart.com/polos-t-shirts.html');
+    websites.push('https://adresse.paris/608-pulls-et-sweatshirts');
 
-    const products = await dedicatedbrand.scrape(eshop);
+    for(let eshop in websites){
+      console.log(`🕵️‍♀️  browsing ${websites[eshop]} source`);
 
-    console.log(products);
-    console.log('done');
-    process.exit(0);
+      const products = await dedicatedbrand.scrape(websites[eshop]);
+  
+      console.log(products);
+      console.log('done');
+    }
+    process.exit(0);  
+
   } catch (e) {
     console.error(e);
     process.exit(1);
   }
 }
 
-const [,, eshop] = process.argv;
+const [,,] = process.argv;
 
-sandbox(eshop);
+sandbox();
