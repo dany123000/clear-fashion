@@ -56,6 +56,30 @@ const parse = (data, num = 0) => {
     })
     .get();
   }
+
+  if(num==2){
+    return $('.product-container')
+    .map((i, element) => {
+      const name = $(element)
+        .find('.product-name')
+        .text()
+        .trim()
+        .replace(/\s/g, ' ');
+        const price = parseInt(
+          $(element)
+            .find('.price')
+            .text()
+        );
+        const link = 
+        $(element)
+            .find('.product_img_link').attr('href')
+        ;
+    
+      return {name, price, link};
+    })
+    .get();
+  }
+
 };
 
 /**
@@ -74,6 +98,9 @@ module.exports.scrape = async url => {
       }
       if(url.includes('montlimart')){
         return parse(body, 1);
+      }
+      if(url.includes('adresse.paris')){
+        return parse(body, 2);
       }
     }
 
