@@ -1,4 +1,10 @@
 const db = require('./index.js');
 const products = require('../products.json')
-console.log(products);
+
+//console.log(products);
+
 db.getDB();
+db.delete();
+db.insert(products);
+
+//process.exit(0);

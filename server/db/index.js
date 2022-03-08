@@ -37,7 +37,7 @@ const getDB = module.exports.getDB = async () => {
  * @param  {Array}  products
  * @return {Object}
  */
-module.exports.insert = async products => {
+ module.exports.insert = async products => {
   try {
     const db = await getDB();
     const collection = db.collection(MONGODB_COLLECTION);
@@ -51,6 +51,26 @@ module.exports.insert = async products => {
     fs.writeFileSync('products.json', JSON.stringify(products));
     return {
       'insertedCount': error.result.nInserted
+    };
+  }
+};
+
+/**
+ * Delete all products
+ * @return {Object}
+ */
+ module.exports.delete = async () => {
+  try {
+    const db = await getDB();
+    const collection = db.collection(MONGODB_COLLECTION);
+    const result = await collection.deleteMany({});
+
+    return result;
+  } catch (error) {
+    console.error('🚨 collection.delete...', error);
+    fs.writeFileSync('products.json', JSON.stringify(products));
+    return {
+
     };
   }
 };
