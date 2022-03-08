@@ -9,5 +9,6 @@ const products = require('../products.json')
 
 //db.find({'brand' : 'DEDICATED'}).then(x => console.log(x));
 
-db.find({'price' : {'$lt':50}}).then(x => console.log(x));
+//db.find({'price' : {$lt:50}}).then(x => console.log(x));
 
+//db.aggregate([ {$sort : {'price' : 1}} ]).then(x => console.log(x));
