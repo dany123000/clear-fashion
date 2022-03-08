@@ -7,6 +7,7 @@ const products = require('../products.json')
 //db.deleteAll();
 //db.insert(products);
 
-db.find({'brand' : 'DEDICATED'}).then(x => console.log(x));
+//db.find({'brand' : 'DEDICATED'}).then(x => console.log(x));
 
-//process.exit(0);
+db.find({'price' : {'$lt':50}}).then(x => console.log(x));
+
