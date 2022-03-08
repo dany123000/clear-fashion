@@ -4,6 +4,7 @@ var fs = require('fs');
 
 async function sandbox () {
   try {
+    var products = [];
     let websites = [];
     websites.push('https://www.dedicatedbrand.com/en/men/news');
     websites.push('https://www.montlimart.com/polos-t-shirts.html');
@@ -16,16 +17,14 @@ async function sandbox () {
     
     for(let eshop in websites){
       console.log(`🕵️‍♀️  browsing ${websites[eshop]} source`);
-
-      const products = await dedicatedbrand.scrape(websites[eshop]);
-  
-      console.log(products);
-      fs.appendFile('products.json', JSON.stringify(products), 'utf8', err => {
-        if (err)
-          console.log(err);
-        });
-      console.log('done');
-    }
+      
+      let currentProducts = await dedicatedbrand.scrape(websites[eshop]);
+      for(let i in currentProducts){
+        products.push(currentProducts[i]);
+      }
+    }  
+    fs.writeFileSync('products.json', JSON.stringify(products), 'utf8');
+    console.log('done');
     process.exit(0);
 
   } catch (e) {
