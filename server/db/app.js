@@ -4,7 +4,7 @@ const products = require('../products.json')
 //console.log(products);
 
 db.getDB();
-db.delete();
+db.deleteAll();
 db.insert(products);
 
 //process.exit(0);

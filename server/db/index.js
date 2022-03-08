@@ -59,7 +59,7 @@ const getDB = module.exports.getDB = async () => {
  * Delete all products
  * @return {Object}
  */
- module.exports.delete = async () => {
+ module.exports.deleteAll = async () => {
   try {
     const db = await getDB();
     const collection = db.collection(MONGODB_COLLECTION);

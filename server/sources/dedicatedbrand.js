@@ -28,8 +28,9 @@ const parse = (data, num = 0) => {
             .find('.productList-link')[1]
             .attribs.href
         ;
+        const brand = "DEDICATED";
     
-      return {name, price, link};
+      return {name, price, link, brand};
     })
     .get();
   }
@@ -51,8 +52,9 @@ const parse = (data, num = 0) => {
         $(element)
             .find('.product-name a').attr('href')
         ;
+        const brand = "Montlimart";
     
-      return {name, price, link};
+      return {name, price, link, brand};
     })
     .get();
   }
@@ -74,8 +76,9 @@ const parse = (data, num = 0) => {
         $(element)
             .find('.product_img_link').attr('href')
         ;
+        const brand = "ADRESSE Paris";
     
-      return {name, price, link};
+      return {name, price, link, brand};
     })
     .get();
   }
