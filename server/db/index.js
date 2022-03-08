@@ -80,7 +80,7 @@ const getDB = module.exports.getDB = async () => {
  * @param  {Array}  query
  * @return {Array}
  */
-module.exports.find = async query => {
+ module.exports.find = async query => {
   try {
     const db = await getDB();
     const collection = db.collection(MONGODB_COLLECTION);
@@ -89,6 +89,24 @@ module.exports.find = async query => {
     return result;
   } catch (error) {
     console.error('🚨 collection.find...', error);
+    return null;
+  }
+};
+
+/**
+ * Aggregate products based on query
+ * @param  {Array}  query
+ * @return {Array}
+ */
+ module.exports.aggregate = async query => {
+  try {
+    const db = await getDB();
+    const collection = db.collection(MONGODB_COLLECTION);
+    const result = await collection.aggregate(query).toArray();
+
+    return result;
+  } catch (error) {
+    console.error('🚨 collection.aggregate...', error);
     return null;
   }
 };

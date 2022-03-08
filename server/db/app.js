@@ -3,8 +3,10 @@ const products = require('../products.json')
 
 //console.log(products);
 
-db.getDB();
-db.deleteAll();
-db.insert(products);
+//db.getDB();
+//db.deleteAll();
+//db.insert(products);
+
+db.find({'brand' : 'DEDICATED'}).then(x => console.log(x));
 
 //process.exit(0);
