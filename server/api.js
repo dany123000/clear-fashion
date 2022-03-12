@@ -16,7 +16,7 @@ app.use(helmet());
 app.options('*', cors());
 
 app.get('/products/search', (request, response) => {
-  db.find(request.query).then(x => {
+  db.api(request.query).then(x => {
     console.log(x);
     response.send(x);
   });

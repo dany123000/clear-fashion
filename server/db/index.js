@@ -94,6 +94,36 @@ const getDB = module.exports.getDB = async () => {
 };
 
 /**
+ * Find products for API
+ * @param  {Array}  query
+ * @return {Array}
+ */
+ module.exports.api = async query => {
+  try {
+    let ask = {};
+    let limit = 1000;
+    if(query.hasOwnProperty("limit")){
+      limit = query['limit'];
+    }
+    if(query.hasOwnProperty("brand")){
+      ask['brand'] = query['brand'];
+    }
+    if(query.hasOwnProperty("price")){
+      ask['price'] = {'$lte' : parseInt(query['price'])};
+    }
+    console.log(ask);
+    const db = await getDB();
+    const collection = db.collection(MONGODB_COLLECTION);
+    const result = await collection.find(ask).limit(parseInt(limit)).toArray();
+
+    return result;
+  } catch (error) {
+    console.error('🚨 collection.find...', error);
+    return null;
+  }
+};
+
+/**
  * Aggregate products based on query
  * @param  {Array}  query
  * @return {Array}
