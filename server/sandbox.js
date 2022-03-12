@@ -10,11 +10,6 @@ async function sandbox () {
     websites.push('https://www.montlimart.com/polos-t-shirts.html');
     websites.push('https://adresse.paris/608-pulls-et-sweatshirts');
 
-    fs.unlink('products.json', err => {
-      if (err)
-        console.log(err);
-      });
-    
     for(let eshop in websites){
       console.log(`🕵️‍♀️  browsing ${websites[eshop]} source`);
       
