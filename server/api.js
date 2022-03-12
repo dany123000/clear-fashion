@@ -1,6 +1,7 @@
 const cors = require('cors');
 const express = require('express');
 const helmet = require('helmet');
+const db = require('./db/index.js');
 
 const PORT = 8092;
 
@@ -14,8 +15,10 @@ app.use(helmet());
 
 app.options('*', cors());
 
-app.get('/', (request, response) => {
-  response.send({'ack': true});
+app.get('/products/:id', (request, response) => {
+  db.find({'_id':request.params.id}).then(x => {
+    response.send({'product': x});
+  }  );
 });
 
 app.listen(PORT);
