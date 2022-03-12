@@ -3,7 +3,6 @@ const products = require('../products.json')
 
 //console.log(products);
 
-//db.getDB();
 //db.deleteAll();
 //db.insert(products);
 

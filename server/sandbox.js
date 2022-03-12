@@ -22,9 +22,9 @@ async function sandbox () {
       for(let i in currentProducts){
         products.push(currentProducts[i]);
       }
+      console.log(currentProducts.length, 'products found');
     }  
     fs.writeFileSync('products.json', JSON.stringify(products), 'utf8');
-    console.log('done');
     process.exit(0);
 
   } catch (e) {

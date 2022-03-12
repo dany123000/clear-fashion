@@ -16,8 +16,9 @@ app.use(helmet());
 app.options('*', cors());
 
 app.get('/products/search', (request, response) => {
-  db.find({'_id':'678384c9-20bd-5151-9e1a-382984501eb8'}).then(x => {
-    response.send(request.query);
+  db.find(request.query).then(x => {
+    console.log(x);
+    response.send(x);
   });
 });
 
