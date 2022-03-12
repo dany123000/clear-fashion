@@ -17,7 +17,6 @@ app.options('*', cors());
 
 app.get('/products/search', (request, response) => {
   db.api(request.query).then(x => {
-    console.log(x);
     response.send(x);
   });
 });

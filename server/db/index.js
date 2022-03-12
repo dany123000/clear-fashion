@@ -16,7 +16,6 @@ let database = null;
 const getDB = module.exports.getDB = async () => {
   try {
     if (database) {
-      console.log('💽  Already Connected');
       return database;
     }
 
@@ -111,7 +110,6 @@ const getDB = module.exports.getDB = async () => {
     if(query.hasOwnProperty("price")){
       ask['price'] = {'$lte' : parseInt(query['price'])};
     }
-    console.log(ask);
     const db = await getDB();
     const collection = db.collection(MONGODB_COLLECTION);
     const result = await collection.find(ask).limit(parseInt(limit)).toArray();
