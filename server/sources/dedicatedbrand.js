@@ -28,7 +28,7 @@ const parse = (data, num = 0) => {
             .find('.productList-link')[1]
             .attribs.href
         ;
-        const brand = "DEDICATED";
+        const brand = "dedicated";
     
       return {name, price, link, brand};
     })
@@ -52,7 +52,7 @@ const parse = (data, num = 0) => {
         $(element)
             .find('.product-name a').attr('href')
         ;
-        const brand = "Montlimart";
+        const brand = "montlimart";
     
       return {name, price, link, brand};
     })
@@ -76,7 +76,7 @@ const parse = (data, num = 0) => {
         $(element)
             .find('.product_img_link').attr('href')
         ;
-        const brand = "ADRESSE Paris";
+        const brand = "adresse Paris";
     
       return {name, price, link, brand};
     })
