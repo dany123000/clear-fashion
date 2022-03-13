@@ -112,8 +112,7 @@ const getDB = module.exports.getDB = async () => {
     }
     const db = await getDB();
     const collection = db.collection(MONGODB_COLLECTION);
-    const result = await collection.find(ask).limit(parseInt(limit)).toArray();
-
+    const result = Array.from(await collection.find(ask).toArray()).slice(0,limit);
     return result;
   } catch (error) {
     console.error('🚨 collection.find...', error);
