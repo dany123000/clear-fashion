@@ -112,7 +112,7 @@ const getDB = module.exports.getDB = async () => {
  module.exports.api = async query => {
   try {
     let ask = {};
-    let limit = 1000;
+    let limit = 12;
     if(query.hasOwnProperty("limit")){
       limit = query['limit'];
     }
