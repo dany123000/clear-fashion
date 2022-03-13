@@ -9,6 +9,18 @@ const MONGODB_URI = 'mongodb+srv://mongodb:lnxB2Eb1bSTcDhn5@cluster0.4tpuw.mongo
 let client = null;
 let database = null;
 
+function ComparePrices(a,b){
+  if(a['price'] < b['price']){
+    return -1;
+  }
+  else if(a['price'] > b['price']){
+    return 1;
+  }
+  else{
+    return 0;
+  }
+}
+
 /**
  * Get db connection
  * @type {MongoClient}
@@ -113,6 +125,7 @@ const getDB = module.exports.getDB = async () => {
     const db = await getDB();
     const collection = db.collection(MONGODB_COLLECTION);
     const result = Array.from(await collection.find(ask).toArray()).slice(0,limit);
+    result.sort(ComparePrices);
     return result;
   } catch (error) {
     console.error('🚨 collection.find...', error);
