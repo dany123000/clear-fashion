@@ -112,9 +112,15 @@ const getDB = module.exports.getDB = async () => {
  module.exports.api = async query => {
   try {
     let ask = {};
-    let limit = 12;
-    if(query.hasOwnProperty("limit")){
-      limit = query['limit'];
+    let begin = 0;
+    let end = 10000;
+    let size = 12;
+    let page = 1;
+    if(query.hasOwnProperty("page")){
+      page = query['page'];
+    }
+    if(query.hasOwnProperty("size")){
+      size = query['size'];
     }
     if(query.hasOwnProperty("brand")){
       ask['brand'] = query['brand'];
@@ -124,9 +130,11 @@ const getDB = module.exports.getDB = async () => {
     }
     const db = await getDB();
     const collection = db.collection(MONGODB_COLLECTION);
-    const result = Array.from(await collection.find(ask).toArray()).slice(0,limit);
+    begin = size * (page - 1);
+    end = size * page;
+    const result = Array.from(await collection.find(ask).toArray());
     result.sort(ComparePrices);
-    return result;
+    return result.slice(begin,end);
   } catch (error) {
     console.error('🚨 collection.find...', error);
     return null;
