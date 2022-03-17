@@ -6,9 +6,10 @@ async function sandbox () {
   try {
     var products = [];
     let websites = [];
-    websites.push('https://www.dedicatedbrand.com/en/men/news');
-    websites.push('https://www.montlimart.com/polos-t-shirts.html');
-    websites.push('https://adresse.paris/608-pulls-et-sweatshirts');
+    websites.push('https://www.dedicatedbrand.com/en/men/all-men');
+    websites.push('https://www.dedicatedbrand.com/en/women/all-women');
+    websites.push('https://www.montlimart.com/toute-la-collection.html');
+    websites.push('https://adresse.paris/630-toute-la-collection');
 
     for(let eshop in websites){
       console.log(`🕵️‍♀️  browsing ${websites[eshop]} source`);
