@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>👕 Clear Fahion | Environmentally & human-friendly clothes</title>
+  </head>
+  <body>
+    <h1>Clear fashion</h1>
+    <section id="options">
+      <div id="show">
+        <label for="show-select">Show:</label>
+        <select name="show" id="show-select">
+          <option value="12">12</option>
+          <option value="24">24</option>
+          <option value="48">48</option>
+        </select>
+      </div>
+      <div id="page">
+        <label for="page-select">Go to page:</label>
+        <select name="page" id="page-select"> </select>
+      </div>
+      <div id="filters">
+        <label class="switch" name="recent" id="recent">
+          <input type="checkbox">
+          <span class="slider round"></span>
+          <style>
+            /* The switch - the box around the slider */
+          .switch {
+            position: relative;
+            display: inline-block;
+            width: 30px;
+            height: 17px;
+          }
+
+          /* Hide default HTML checkbox */
+          .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+          }
+
+          /* The slider */
+          .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+          }
+
+          .slider:before {
+            position: absolute;
+            content: "";
+            height: 13px;
+            width: 13px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+          }
+
+          input:checked + .slider {
+            background-color: #2196F3;
+          }
+
+          input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+          }
+
+          input:checked + .slider:before {
+            -webkit-transform: translateX(13px);
+            -ms-transform: translateX(13px);
+            transform: translateX(13px);
+          }
+
+          /* Rounded sliders */
+          .slider.round {
+            border-radius: 17px;
+          }
+
+          .slider.round:before {
+            border-radius: 50%;
+          }
+          </style>
+        </label>
+        <span>⌚ Only recently released</span>
+      </div>
+      <div id="filters">
+        <label class="switch" name="cheap" id="cheap">
+          <input type="checkbox">
+          <span class="slider round"></span>
+          <style>
+            /* The switch - the box around the slider */
+          .switch {
+            position: relative;
+            display: inline-block;
+            width: 30px;
+            height: 17px;
+          }
+
+          /* Hide default HTML checkbox */
+          .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+          }
+
+          /* The slider */
+          .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+          }
+
+          .slider:before {
+            position: absolute;
+            content: "";
+            height: 13px;
+            width: 13px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+          }
+
+          input:checked + .slider {
+            background-color: #2196F3;
+          }
+
+          input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+          }
+
+          input:checked + .slider:before {
+            -webkit-transform: translateX(13px);
+            -ms-transform: translateX(13px);
+            transform: translateX(13px);
+          }
+
+          /* Rounded sliders */
+          .slider.round {
+            border-radius: 17px;
+          }
+
+          .slider.round:before {
+            border-radius: 50%;
+          }
+          </style>
+        </label>
+        <span>💰 Only reasonable price</span>
+      </div>
+      <div id="filters">
+        <label class="switch" name="favorites-filter" id="favorites-filter">
+          <input type="checkbox">
+          <span class="slider round"></span>
+          <style>
+            /* The switch - the box around the slider */
+          .switch {
+            position: relative;
+            display: inline-block;
+            width: 30px;
+            height: 17px;
+          }
+
+          /* Hide default HTML checkbox */
+          .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+          }
+
+          /* The slider */
+          .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+          }
+
+          .slider:before {
+            position: absolute;
+            content: "";
+            height: 13px;
+            width: 13px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+          }
+
+          input:checked + .slider {
+            background-color: #2196F3;
+          }
+
+          input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+          }
+
+          input:checked + .slider:before {
+            -webkit-transform: translateX(13px);
+            -ms-transform: translateX(13px);
+            transform: translateX(13px);
+          }
+
+          /* Rounded sliders */
+          .slider.round {
+            border-radius: 17px;
+          }
+
+          .slider.round:before {
+            border-radius: 50%;
+          }
+          </style>
+        </label>
+        <span>⭐ Only favorites</span>
+      </div>
+      <div id="brand">
+          <label for="brand-select">By brands:</label>
+          <select name="brand" id="brand-select"> </select>
+      </div>
+      <div id="sort">
+        <label for="sort-select">Sort:</label>
+        <select name="sort" id="sort-select">
+          <option value="price-asc" id="price-asc">Cheaper</option>
+          <option value="price-desc">Expensive</option>
+          <option value="date-asc">Recently released</option>
+          <option value="date-desc">Anciently released</option>
+        </select>
+      </div>
+    </section>
+    <section id="indicators">
+      <h2>Indicators</h2>
+      <div>
+        <span>Number of products</span>
+        <span id="nbProducts"></span>
+      </div>
+      <div>
+        <span>Number of new products</span>
+        <span id="nbNewProducts"></span>
+      </div>
+      <div>
+        <span>p50 price value</span>
+        <span id="p50"></span>
+      </div>
+      <div>
+        <span>p90 price value</span>
+        <span id="p90"></span>
+      </div>
+      <div>
+        <span>p95 price value</span>
+        <span id="p95"></span>
+      </div>
+      <div>
+        <span>Last released date</span>
+        <span id="lastRelease"></span>
+      </div>
+    </section>
+    <section id="products"></section>
+    <section id="favorites"></section>
+    <script type="text/javascript" charset="UTF-8" src="portfolio.js"></script>
+  </body>
+</html>
