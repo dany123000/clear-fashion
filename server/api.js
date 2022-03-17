@@ -15,6 +15,10 @@ app.use(helmet());
 
 app.options('*', cors());
 
+app.get('/', (request, response) => {
+  response.send('server running');
+});
+
 app.get('/products/search', (request, response) => {
   db.api(request.query).then(x => {
     response.send(x);
