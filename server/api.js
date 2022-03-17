@@ -21,7 +21,7 @@ app.get('/', (request, response) => {
 
 app.get('/products/search', (request, response) => {
   db.api(request.query).then(x => {
-    response.send({'products':x});
+    response.send(x);
   });
 });
 

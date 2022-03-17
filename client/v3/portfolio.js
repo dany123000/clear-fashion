@@ -59,15 +59,28 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All') => {
     var response='';
     if(brand=='All'){
       response = await fetch(
-        `https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
+        //`https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
+        `http://localhost:8092/products/search?`
     );
     }
     else{
       response = await fetch(
         `https://clear-fashion-api.vercel.app?page=${page}&size=${size}&brand=${brand}`
           );
-    }
-  const body = await response.json();
+        }
+  //const body = await response.json();
+  const body = {
+    'data':{
+      'meta':{
+        'currentPage':currentPagination.currentPage,
+        'pageCount':currentPagination.length,
+        'pageSize':currentProducts.length,
+        'count':currentProducts.length
+      },
+      'result':await response.json()
+    },
+    'success':true
+  };
 
     if (body.success !== true) {
       console.error(body);
