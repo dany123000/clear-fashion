@@ -65,7 +65,8 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All') => {
     }
     else{
       response = await fetch(
-        `https://clear-fashion-api.vercel.app?page=${page}&size=${size}&brand=${brand}`
+        //`https://clear-fashion-api.vercel.app?page=${page}&size=${size}&brand=${brand}`
+        `https://clear-fashion-dany123000.vercel.app/products/search?`
           );
         }
   //const body = await response.json();
@@ -94,14 +95,14 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All') => {
   }
 };
 
-function Favorite(uuid){
-  if(!favorites.find(x => x['uuid']==uuid)){
+function Favorite(_id){
+  if(!favorites.find(x => x['_id']==_id)){
     favorites.push(
-      allProducts['result'].find(x => x['uuid']==uuid)
+      allProducts['result'].find(x => x['_id']==_id)
     );
   }
   else{
-    favorites=favorites.filter(x => x['uuid']!==uuid);
+    favorites=favorites.filter(x => x['_id']!==_id);
   }
   render(currentProducts, currentPagination);
 }
@@ -116,11 +117,11 @@ const renderProducts = (products, setFavorites=false) => {
   const template = products
     .map(product => {
       return `
-      <div class="product" id=${product.uuid}>
+      <div class="product" id=${product._id}>
         <span>${product.brand}</span>
         <a href="${product.link}" target="_blank">${product.name}</a>
         <span>${product.price}</span>
-        <button name="favorite" id="favorite" onclick="Favorite('${product.uuid}')">
+        <button name="favorite" id="favorite" onclick="Favorite('${product._id}')">
           <span>⭐</span>
         </button>
       </div>
