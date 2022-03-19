@@ -60,13 +60,15 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All') => {
     if(brand=='All'){
       response = await fetch(
         //`https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
-        `https://clear-fashion-dany123000.vercel.app/products/search?`
+        //`https://clear-fashion-dany123000.vercel.app/products/search?`
+        `http://localhost:8092/products/search?page=${page}&size=${size}`
     );
     }
     else{
       response = await fetch(
         //`https://clear-fashion-api.vercel.app?page=${page}&size=${size}&brand=${brand}`
-        `https://clear-fashion-dany123000.vercel.app/products/search?`
+        //`https://clear-fashion-dany123000.vercel.app/products/search?`
+        `http://localhost:8092/products/search?page=${page}&size=${size}`
           );
         }
   //const body = await response.json();
@@ -325,6 +327,7 @@ const sortByDate = async (desc) => {
 
 document.addEventListener('DOMContentLoaded', async () => {
   const products = await fetchProducts();
+  console.log(products);
   allProducts = await fetchProducts(1,10000);
   console.log(allProducts);
   allBrands.push("All");
@@ -343,6 +346,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   allProductsByDate = [...allProducts['result']];
   allProductsByDate.sort(CompareDates).reverse();
   lastRelease = allProductsByDate[0]['released'];
+
+  for(let i in allProducts){
+    if(allProducts[i]['price']==null){
+      delete allProducts[i];
+    }
+  }
+  console.log(allProducts);
 
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
