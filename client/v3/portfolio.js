@@ -59,22 +59,21 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All') => {
     var response='';
     if(brand=='All'){
       response = await fetch(
-        `https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
+        //`https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
+        `http://localhost:8092/products/search?page=${page}&size=${size}`
+        //`https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
     );
     }
     else{
       response = await fetch(
-        `https://clear-fashion-api.vercel.app?page=${page}&size=${size}&brand=${brand}`
+            //`https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
+            `http://localhost:8092/products/search?page=${page}&size=${size}`
+            //`https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
           );
     }
   const body = await response.json();
 
-    if (body.success !== true) {
-      console.error(body);
-      return {currentProducts, currentPagination};
-    }
-
-    return body.data;
+  return body;
   } catch (error) {
     console.error(error);
     return {currentProducts, currentPagination};
@@ -98,6 +97,7 @@ function Favorite(uuid){
  * @param  {Array} products
  */
 const renderProducts = (products, setFavorites=false) => {
+  //console.log('render products', products)
   const fragment = document.createDocumentFragment();
   const div = document.createElement('div');
   const template = products
@@ -311,8 +311,9 @@ const sortByDate = async (desc) => {
 
 document.addEventListener('DOMContentLoaded', async () => {
   const products = await fetchProducts();
+  console.log('products',products)
   allProducts = await fetchProducts(1,10000);
-  console.log(allProducts);
+  console.log('allProducts',allProducts);
   allBrands.push("All");
   for(let i in allProducts.result){
     allBrands.push(allProducts.result[i].brand);
