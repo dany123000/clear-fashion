@@ -226,7 +226,7 @@ function ComparePrices(a,b){
 selectCheap.addEventListener('change', async () => {
   var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
   if(!cheap){
-    products['result']=products['result'].filter(x=>x['price']<50);
+    products=products.filter(x=>x['price']<50);
     cheap=true;
   }
   else{
@@ -253,10 +253,10 @@ favoritesFilter.addEventListener('change', async () => {
 const sortByPrice = async (desc) => {
   var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
   if(!desc){
-    products['result'].sort(ComparePrices);
+    products.sort(ComparePrices);
   }
   else{
-    products['result'].sort(ComparePrices).reverse();
+    products.sort(ComparePrices).reverse();
   }
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
