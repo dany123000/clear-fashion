@@ -132,7 +132,7 @@ const getDB = module.exports.getDB = async () => {
     const collection = db.collection(MONGODB_COLLECTION);
     begin = size * (page - 1);
     end = size * page;
-    const result = Array.from(await collection.find(ask).toArray());
+    const result = Array.from(await collection.find(ask).toArray()).filter(prod => prod['price']!=null);
     result.sort(ComparePrices);
     return result.slice(begin,end);
   } catch (error) {
