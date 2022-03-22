@@ -13,16 +13,13 @@ var onlyFavorites=false;
 var p50=0;
 var p90=0;
 var p95=0;
-var lastRelease = Date();
 var allProductsByPrice=[];
-var allProductsByDate=[];
 var favorites=[];
 
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
 const selectBrand = document.querySelector('#brand-select');
-const selectRecent = document.querySelector('#recent');
 const selectCheap = document.querySelector('#cheap');
 const sectionProducts = document.querySelector('#products');
 const sectionFavorites = document.querySelector('#favorites');
