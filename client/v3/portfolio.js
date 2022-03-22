@@ -212,18 +212,6 @@ selectBrand.addEventListener('change', async (event) => {
   render(currentProducts, currentPagination);
 });
 
-function CompareDates(a,b){
-  if(a['released']<b['released']){
-    return -1;
-  }
-  else if(a['released']>b['released']){
-    return 1;
-  }
-  else{
-    return 0;
-  }
-}
-
 function ComparePrices(a,b){
   if(a['price']<b['price']){
     return -1;
@@ -269,12 +257,6 @@ sort.addEventListener('change', async(event) => {
   if(event.target.value=='price-desc'){
     sortByPrice(true);
   }
-  if(event.target.value=='date-asc'){
-    sortByDate(false);
-  }
-  if(event.target.value=='date-desc'){
-    sortByDate(true);
-  }
 })
 
 favoritesFilter.addEventListener('change', async () => {
@@ -294,18 +276,6 @@ const sortByPrice = async (desc) => {
   render(currentProducts, currentPagination);
 };
 
-const sortByDate = async (desc) => {
-  var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
-  if(!desc){
-    products['result'].sort(CompareDates);
-  }
-  else{
-    products['result'].sort(CompareDates).reverse();
-  }
-  setCurrentProducts(products);
-  render(currentProducts, currentPagination);
-};
-
 document.addEventListener('DOMContentLoaded', async () => {
   const products = await fetchProducts();
   allProducts = await fetchProducts(1,10000);
@@ -315,15 +285,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
   allBrands=Array.from(new Set(allBrands));
 
-  allProductsByPrice = [...allProducts['result']];
+  allProductsByPrice = [...allProducts];
   allProductsByPrice.sort(ComparePrices);
   p50 = allProductsByPrice[parseInt(allProductsByPrice.length*0.5)]['price'];
   p90 = allProductsByPrice[parseInt(allProductsByPrice.length*0.9)]['price'];
   p95 = allProductsByPrice[parseInt(allProductsByPrice.length*0.95)]['price'];
-
-  allProductsByDate = [...allProducts['result']];
-  allProductsByDate.sort(CompareDates).reverse();
-  lastRelease = allProductsByDate[0]['released'];
 
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
