@@ -8,7 +8,6 @@ var allProducts=[];
 var allBrands=[];
 var selectedBrand="All";
 var currentBrand=0;
-var recentlyReleased=false;
 var cheap=false;
 var onlyFavorites=false;
 var p50=0;
@@ -223,19 +222,6 @@ function ComparePrices(a,b){
     return 0;
   }
 }
-
-selectRecent.addEventListener('change', async () => {
-  var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
-  if(!recentlyReleased){
-    products['result']=products['result'].filter(x=>Date.parse(Date())-Date.parse(x['released'])<14*24*3600*1000);
-    recentlyReleased=true;
-  }
-  else{
-    recentlyReleased=false;
-  }
-  setCurrentProducts(products);
-  render(currentProducts, currentPagination);
-});
 
 selectCheap.addEventListener('change', async () => {
   var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
