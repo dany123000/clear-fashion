@@ -57,13 +57,15 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All') => {
     var response='';
     if(brand=='All'){
       response = await fetch(
-        `http://localhost:8092/products/search?page=${page}&size=${size}`
+        //`http://localhost:8092/products/search?page=${page}&size=${size}`
+        `https://clear-fashion-dany123000.vercel.app/products/search?page=${page}&size=${size}`
     );
     }
     else{
       response = await fetch(
-            `http://localhost:8092/products/search?page=${page}&size=${size}&brand=${brand}`
-          );
+        `http://localhost:8092/products/search?page=${page}&size=${size}&brand=${brand}`
+        `https://clear-fashion-dany123000.vercel.app/products/search?page=${page}&size=${size}&brand=${brand}`
+        );
     }
   const body = await response.json();
 
