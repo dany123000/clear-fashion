@@ -63,7 +63,7 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All') => {
     }
     else{
       response = await fetch(
-        `http://localhost:8092/products/search?page=${page}&size=${size}&brand=${brand}`
+        //`http://localhost:8092/products/search?page=${page}&size=${size}&brand=${brand}`
         `https://clear-fashion-dany123000.vercel.app/products/search?page=${page}&size=${size}&brand=${brand}`
         );
     }
