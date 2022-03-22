@@ -11,7 +11,6 @@ var currentBrand=0;
 var recentlyReleased=false;
 var cheap=false;
 var onlyFavorites=false;
-var newProducts=[];
 var p50=0;
 var p90=0;
 var p95=0;
@@ -29,7 +28,6 @@ const selectCheap = document.querySelector('#cheap');
 const sectionProducts = document.querySelector('#products');
 const sectionFavorites = document.querySelector('#favorites');
 const spanNbProducts = document.querySelector('#nbProducts');
-const spanNbNewProducts = document.querySelector('#nbNewProducts');
 const sort = document.querySelector('#sort-select');
 const spanp50 = document.querySelector('#p50');
 const spanp90 = document.querySelector('#p90');
@@ -166,7 +164,6 @@ const renderProducts = (products, setFavorites=false) => {
 const renderIndicators = pagination => {
   const {count} = pagination;
   spanNbProducts.innerHTML = count;
-  spanNbNewProducts.innerHTML = newProducts.length;
   spanp50.innerHTML = p50;
   spanp90.innerHTML = p90;
   spanp95.innerHTML = p95;
@@ -311,16 +308,13 @@ const sortByDate = async (desc) => {
 
 document.addEventListener('DOMContentLoaded', async () => {
   const products = await fetchProducts();
-  console.log('products',products)
   allProducts = await fetchProducts(1,10000);
-  console.log('allProducts',allProducts);
   allBrands.push("All");
-  for(let i in allProducts.result){
-    allBrands.push(allProducts.result[i].brand);
+  for(let i in allProducts){
+    allBrands.push(allProducts[i].brand);
   }
   allBrands=Array.from(new Set(allBrands));
 
-  newProducts = products['result'].filter(x => Date.parse(Date())-Date.parse(x['released'])<14*24*3600*1000);
   allProductsByPrice = [...allProducts['result']];
   allProductsByPrice.sort(ComparePrices);
   p50 = allProductsByPrice[parseInt(allProductsByPrice.length*0.5)]['price'];
