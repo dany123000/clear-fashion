@@ -59,31 +59,15 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All') => {
     var response='';
     if(brand=='All'){
       response = await fetch(
-        //`https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
-        //`https://clear-fashion-dany123000.vercel.app/products/search?`
-        `http://localhost:8092/products/search?page=${page}&size=${size}`
+        `https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
     );
     }
     else{
       response = await fetch(
-        //`https://clear-fashion-api.vercel.app?page=${page}&size=${size}&brand=${brand}`
-        //`https://clear-fashion-dany123000.vercel.app/products/search?`
-        `http://localhost:8092/products/search?page=${page}&size=${size}`
+        `https://clear-fashion-api.vercel.app?page=${page}&size=${size}&brand=${brand}`
           );
-        }
-  //const body = await response.json();
-  const body = {
-    'data':{
-      'meta':{
-        'currentPage':currentPagination.currentPage,
-        'pageCount':currentPagination.length,
-        'pageSize':currentProducts.length,
-        'count':currentProducts.length
-      },
-      'result':await response.json()
-    },
-    'success':true
-  };
+    }
+  const body = await response.json();
 
     if (body.success !== true) {
       console.error(body);
@@ -97,14 +81,14 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All') => {
   }
 };
 
-function Favorite(_id){
-  if(!favorites.find(x => x['_id']==_id)){
+function Favorite(uuid){
+  if(!favorites.find(x => x['uuid']==uuid)){
     favorites.push(
-      allProducts['result'].find(x => x['_id']==_id)
+      allProducts['result'].find(x => x['uuid']==uuid)
     );
   }
   else{
-    favorites=favorites.filter(x => x['_id']!==_id);
+    favorites=favorites.filter(x => x['uuid']!==uuid);
   }
   render(currentProducts, currentPagination);
 }
@@ -119,11 +103,11 @@ const renderProducts = (products, setFavorites=false) => {
   const template = products
     .map(product => {
       return `
-      <div class="product" id=${product._id}>
+      <div class="product" id=${product.uuid}>
         <span>${product.brand}</span>
         <a href="${product.link}" target="_blank">${product.name}</a>
         <span>${product.price}</span>
-        <button name="favorite" id="favorite" onclick="Favorite('${product._id}')">
+        <button name="favorite" id="favorite" onclick="Favorite('${product.uuid}')">
           <span>⭐</span>
         </button>
       </div>
@@ -327,7 +311,6 @@ const sortByDate = async (desc) => {
 
 document.addEventListener('DOMContentLoaded', async () => {
   const products = await fetchProducts();
-  console.log(products);
   allProducts = await fetchProducts(1,10000);
   console.log(allProducts);
   allBrands.push("All");
@@ -346,13 +329,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   allProductsByDate = [...allProducts['result']];
   allProductsByDate.sort(CompareDates).reverse();
   lastRelease = allProductsByDate[0]['released'];
-
-  for(let i in allProducts){
-    if(allProducts[i]['price']==null){
-      delete allProducts[i];
-    }
-  }
-  console.log(allProducts);
 
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
