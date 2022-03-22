@@ -36,9 +36,14 @@ const favoritesFilter = document.querySelector('#favorites-filter');
  * @param {Array} result - products to display
  * @param {Object} meta - pagination meta info
  */
-const setCurrentProducts = ({result, meta}) => {
+const setCurrentProducts = (result) => {
   currentProducts = result;
-  currentPagination = meta;
+  currentPagination = {
+    "count":allProducts.length,
+    "currentPage":1,
+    "pageCount":12,
+    "pageSize":12
+  };
 };
 
 /**
@@ -91,7 +96,6 @@ function Favorite(uuid){
  * @param  {Array} products
  */
 const renderProducts = (products, setFavorites=false) => {
-  //console.log('render products', products)
   const fragment = document.createDocumentFragment();
   const div = document.createElement('div');
   const template = products
@@ -163,7 +167,6 @@ const renderIndicators = pagination => {
   spanp50.innerHTML = p50;
   spanp90.innerHTML = p90;
   spanp95.innerHTML = p95;
-  spanLastRelease.innerHTML = lastRelease;
 };
 
 const renderFavorites = favorites => {
