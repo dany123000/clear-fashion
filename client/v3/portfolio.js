@@ -9,7 +9,6 @@ var allBrands=[];
 var selectedBrand="All";
 var selectedPage=1;
 var selectedSize=12;
-var selectedCheap=false;
 var currentBrand=0;
 var cheap=false;
 var onlyFavorites=false;
