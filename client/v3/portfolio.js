@@ -101,10 +101,10 @@ const renderProducts = (products, setFavorites=false) => {
   const template = products
     .map(product => {
       return `
-      <div class="col-sm-3 p-3 bg-dark text-white" >
+      <div class="col-sm-3 p-3 bg-white text-white card" >
       <span>${product.brand}</span>
       <a href="${product.link}" target="_blank">${product.name}</a>
-      <span>${product.price}</span>
+      <span style="color:orange">${product.price}</span>
       <button name="favorite" id="favorite" onclick="Favorite('${product._id}')">
         <span>⭐</span>
       </button>
