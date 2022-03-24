@@ -9,6 +9,7 @@ var allBrands=[];
 var selectedBrand="All";
 var selectedPage=1;
 var selectedSize=12;
+var selectedCheap=false;
 var currentBrand=0;
 var cheap=false;
 var onlyFavorites=false;
@@ -54,21 +55,20 @@ const setCurrentProducts = (result, page=selectedPage, size=selectedSize) => {
  * @param  {String}  [brand="All"] - selected brand
  * @return {Object}
  */
-const fetchProducts = async (page = 1, size = 12, brand = 'All') => {
+const fetchProducts = async (page = 1, size = 12, brand = 'All', cheap=false) => {
   try {
+    var query=`http://localhost:8092/products/search?page=${page}&size=${size}`;
+    //var query=`https://clear-fashion-dany123000.vercel.app/products/search?page=${page}&size=${size}`;
     var response='';
-    if(brand=='All'){
-      response = await fetch(
-        `http://localhost:8092/products/search?page=${page}&size=${size}`
-        //`https://clear-fashion-dany123000.vercel.app/products/search?page=${page}&size=${size}`
-    );
+    if(brand!='All'){
+      query+=`&brand=${brand}`;
     }
-    else{
-      response = await fetch(
-        `http://localhost:8092/products/search?page=${page}&size=${size}&brand=${brand}`
-        //`https://clear-fashion-dany123000.vercel.app/products/search?page=${page}&size=${size}&brand=${brand}`
-        );
+    if(cheap){
+      query+=`&price=50`;
     }
+    response = await fetch(query);
+
+
   const body = await response.json();
 
   return body;
@@ -178,7 +178,6 @@ const render = (products, pagination) => {
   renderPagination(pagination);
   renderIndicators(pagination);
   renderFavorites(favorites);
-  console.log(pagination)
 };
 
 /**
@@ -189,8 +188,7 @@ const render = (products, pagination) => {
  * Select the number of products to display
  */
  selectShow.addEventListener('change', async (event) => {
-  console.log(selectedPage, parseInt(event.target.value), selectedBrand)
-  const products = await fetchProducts(selectedPage, parseInt(event.target.value), selectedBrand);
+  const products = await fetchProducts(selectedPage, parseInt(event.target.value), selectedBrand, cheap);
   setCurrentProducts(products,selectedPage,parseInt(event.target.value));
   render(currentProducts, currentPagination);
 });
@@ -199,14 +197,14 @@ const render = (products, pagination) => {
  * Select the page to display
  */
  selectPage.addEventListener('change', async (event) => {
-  const products = await fetchProducts(parseInt(event.target.value), selectedSize, selectedBrand);
+  const products = await fetchProducts(parseInt(event.target.value), selectedSize, selectedBrand, cheap);
   setCurrentProducts(products,parseInt(event.target.value));
   render(currentProducts, currentPagination);
 });
 
 selectBrand.addEventListener('change', async (event) => {
   selectedBrand = event.target.value;
-  const products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
+  const products = await fetchProducts(selectedPage, selectedSize, selectedBrand, cheap);
   setCurrentProducts(products);
   currentBrand = allBrands.indexOf(selectedBrand);
   render(currentProducts, currentPagination);
@@ -225,14 +223,8 @@ function ComparePrices(a,b){
 }
 
 selectCheap.addEventListener('change', async () => {
-  var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
-  if(!cheap){
-    products=products.filter(x=>x['price']<50);
-    cheap=true;
-  }
-  else{
-    cheap=false;
-  }
+  cheap=!cheap;
+  var products = await fetchProducts(selectedPage, selectedSize, selectedBrand, cheap);
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
 });
@@ -252,7 +244,7 @@ favoritesFilter.addEventListener('change', async () => {
 })
 
 const sortByPrice = async (desc) => {
-  var products = await fetchProducts(currentPagination.currentPage, currentPagination.length, selectedBrand);
+  var products = await fetchProducts(selectedPage, selectedSize, selectedBrand, cheap);
   if(!desc){
     products.sort(ComparePrices);
   }
