@@ -101,18 +101,18 @@ const renderProducts = (products, setFavorites=false) => {
   const template = products
     .map(product => {
       return `
-      <div class="product" id=${product._id}>
-        <span>${product.brand}</span>
-        <a href="${product.link}" target="_blank">${product.name}</a>
-        <span>${product.price}</span>
-        <button name="favorite" id="favorite" onclick="Favorite('${product._id}')">
-          <span>⭐</span>
-        </button>
+      <div class="col-sm-3 p-3 bg-dark text-white" >
+      <span>${product.brand}</span>
+      <a href="${product.link}" target="_blank">${product.name}</a>
+      <span>${product.price}</span>
+      <button name="favorite" id="favorite" onclick="Favorite('${product._id}')">
+        <span>⭐</span>
+      </button>
       </div>
     `;
     })
     .join('');
-
+  div.setAttribute( "class", "row" );
   div.innerHTML = template;
   fragment.appendChild(div);
   if(!setFavorites){
