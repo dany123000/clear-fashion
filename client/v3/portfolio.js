@@ -190,8 +190,8 @@ const render = (products, pagination) => {
  * Select the number of products to display
  */
  selectShow.addEventListener('change', async (event) => {
-  const products = await fetchProducts(selectedPage, parseInt(event.target.value), selectedBrand, cheap);
-  setCurrentProducts(products,selectedPage,parseInt(event.target.value));
+  const products = await fetchProducts(1, parseInt(event.target.value), selectedBrand, cheap);
+  setCurrentProducts(products,1,parseInt(event.target.value));
   render(currentProducts, currentPagination);
 });
 
