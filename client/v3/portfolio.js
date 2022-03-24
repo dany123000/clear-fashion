@@ -7,6 +7,8 @@ let currentPagination = {};
 var allProducts=[];
 var allBrands=[];
 var selectedBrand="All";
+var selectedPage=1;
+var selectedSize=12;
 var currentBrand=0;
 var cheap=false;
 var onlyFavorites=false;
@@ -35,13 +37,13 @@ const favoritesFilter = document.querySelector('#favorites-filter');
  * @param {Array} result - products to display
  * @param {Object} meta - pagination meta info
  */
-const setCurrentProducts = (result) => {
+const setCurrentProducts = (result,page=selectedPage,size=selectedSize) => {
   currentProducts = result;
   currentPagination = {
     "count":allProducts.length,
-    "currentPage":1,
-    "pageCount":12,
-    "pageSize":12
+    "currentPage":selectedPage,
+    "pageCount":allProducts.length/size,
+    "pageSize":selectedSize
   };
 };
 
@@ -57,14 +59,14 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All') => {
     var response='';
     if(brand=='All'){
       response = await fetch(
-        //`http://localhost:8092/products/search?page=${page}&size=${size}`
-        `https://clear-fashion-dany123000.vercel.app/products/search?page=${page}&size=${size}`
+        `http://localhost:8092/products/search?page=${page}&size=${size}`
+        //`https://clear-fashion-dany123000.vercel.app/products/search?page=${page}&size=${size}`
     );
     }
     else{
       response = await fetch(
-        //`http://localhost:8092/products/search?page=${page}&size=${size}&brand=${brand}`
-        `https://clear-fashion-dany123000.vercel.app/products/search?page=${page}&size=${size}&brand=${brand}`
+        `http://localhost:8092/products/search?page=${page}&size=${size}&brand=${brand}`
+        //`https://clear-fashion-dany123000.vercel.app/products/search?page=${page}&size=${size}&brand=${brand}`
         );
     }
   const body = await response.json();
@@ -187,7 +189,7 @@ const render = (products, pagination) => {
  */
  selectShow.addEventListener('change', async (event) => {
   const products = await fetchProducts(currentPagination.currentPage, parseInt(event.target.value), selectedBrand);
-  setCurrentProducts(products);
+  setCurrentProducts(products,selectedPage,selectedSize);
   render(currentProducts, currentPagination);
 });
 
@@ -196,7 +198,7 @@ const render = (products, pagination) => {
  */
  selectPage.addEventListener('change', async (event) => {
   const products = await fetchProducts(parseInt(event.target.value), currentPagination.length, selectedBrand);
-  setCurrentProducts(products);
+  setCurrentProducts(products,parseInt(event.target.value));
   render(currentProducts, currentPagination);
 });
 
