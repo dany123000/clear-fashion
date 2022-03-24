@@ -46,6 +46,8 @@ const setCurrentProducts = (result, page=selectedPage, size=selectedSize) => {
     "pageCount":parseInt(allProducts.length/size),
     "pageSize":size
   };
+  selectedPage=page;
+  selectedSize=size;
 };
 
 /**
@@ -198,14 +200,14 @@ const render = (products, pagination) => {
  */
  selectPage.addEventListener('change', async (event) => {
   const products = await fetchProducts(parseInt(event.target.value), selectedSize, selectedBrand, cheap);
-  setCurrentProducts(products,parseInt(event.target.value));
+  setCurrentProducts(products,parseInt(event.target.value),selectedSize);
   render(currentProducts, currentPagination);
 });
 
 selectBrand.addEventListener('change', async (event) => {
   selectedBrand = event.target.value;
   const products = await fetchProducts(selectedPage, selectedSize, selectedBrand, cheap);
-  setCurrentProducts(products);
+  setCurrentProducts(products,selectedPage,selectedSize);
   currentBrand = allBrands.indexOf(selectedBrand);
   render(currentProducts, currentPagination);
 });
@@ -251,7 +253,7 @@ const sortByPrice = async (desc) => {
   else{
     products.sort(ComparePrices).reverse();
   }
-  setCurrentProducts(products);
+  setCurrentProducts(products,selectedPage,selectedSize);
   render(currentProducts, currentPagination);
 };
 
@@ -270,6 +272,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   p90 = allProductsByPrice[parseInt(allProductsByPrice.length*0.9)]['price'];
   p95 = allProductsByPrice[parseInt(allProductsByPrice.length*0.95)]['price'];
 
-  setCurrentProducts(products);
+  setCurrentProducts(products,selectedPage,selectedSize);
   render(currentProducts, currentPagination);
 });
