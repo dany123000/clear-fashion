@@ -37,13 +37,13 @@ const favoritesFilter = document.querySelector('#favorites-filter');
  * @param {Array} result - products to display
  * @param {Object} meta - pagination meta info
  */
-const setCurrentProducts = (result,page=selectedPage,size=selectedSize) => {
+const setCurrentProducts = (result, page=selectedPage, size=selectedSize) => {
   currentProducts = result;
   currentPagination = {
     "count":allProducts.length,
-    "currentPage":selectedPage,
-    "pageCount":allProducts.length/size,
-    "pageSize":selectedSize
+    "currentPage":page,
+    "pageCount":parseInt(allProducts.length/size),
+    "pageSize":size
   };
 };
 
@@ -178,6 +178,7 @@ const render = (products, pagination) => {
   renderPagination(pagination);
   renderIndicators(pagination);
   renderFavorites(favorites);
+  console.log(pagination)
 };
 
 /**
@@ -188,8 +189,9 @@ const render = (products, pagination) => {
  * Select the number of products to display
  */
  selectShow.addEventListener('change', async (event) => {
-  const products = await fetchProducts(currentPagination.currentPage, parseInt(event.target.value), selectedBrand);
-  setCurrentProducts(products,selectedPage,selectedSize);
+  console.log(selectedPage, parseInt(event.target.value), selectedBrand)
+  const products = await fetchProducts(selectedPage, parseInt(event.target.value), selectedBrand);
+  setCurrentProducts(products,selectedPage,parseInt(event.target.value));
   render(currentProducts, currentPagination);
 });
 
@@ -197,7 +199,7 @@ const render = (products, pagination) => {
  * Select the page to display
  */
  selectPage.addEventListener('change', async (event) => {
-  const products = await fetchProducts(parseInt(event.target.value), currentPagination.length, selectedBrand);
+  const products = await fetchProducts(parseInt(event.target.value), selectedSize, selectedBrand);
   setCurrentProducts(products,parseInt(event.target.value));
   render(currentProducts, currentPagination);
 });
