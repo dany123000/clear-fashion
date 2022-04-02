@@ -84,7 +84,7 @@ function Favorite(_id){
     favorites.push(
       allProducts.find(x => x['_id']==_id)
     );
-    alert("Aricle added to favorites !");
+    alert("Article added to favorites !");
   }
   else{
     if (confirm("Remove this article from favorites ?")) {
