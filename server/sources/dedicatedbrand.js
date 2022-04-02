@@ -79,8 +79,9 @@ const parse = (data, num = 0) => {
             .find('.product_img_link').attr('href')
         ;
         const brand = "adresse Paris";
-    
-      return {name, price, link, brand};
+        const image = $(element)
+            .find('.product_img_link img').attr('data-original');
+      return {name, price, link, brand, image};
     })
     .get();
   }
