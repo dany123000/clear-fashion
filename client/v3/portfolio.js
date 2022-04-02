@@ -58,8 +58,8 @@ const setCurrentProducts = (result, page=selectedPage, size=selectedSize) => {
  */
 const fetchProducts = async (page = 1, size = 12, brand = 'All', cheap=false) => {
   try {
-    var query=`http://localhost:8092/products/search?page=${page}&size=${size}`;
-    //var query=`https://clear-fashion-dany123000.vercel.app/products/search?page=${page}&size=${size}`;
+    //var query=`http://localhost:8092/products/search?page=${page}&size=${size}`;
+    var query=`https://clear-fashion-dany123000.vercel.app/products/search?page=${page}&size=${size}`;
     var response='';
     if(brand!='All'){
       query+=`&brand=${brand}`;
@@ -104,7 +104,7 @@ const renderProducts = (products, setFavorites=false) => {
       <div class="col-sm-3 p-3 bg-white text-white card" >
       <span>${product.brand}</span>
       <a href="${product.link}" target="_blank">${product.name}</a>
-      <span style="color:orange">${product.price}</span>
+      <span style="color:black";>${product.price}</span>
       <button name="favorite" id="favorite" onclick="Favorite('${product._id}')">
         <span>⭐</span>
       </button>
