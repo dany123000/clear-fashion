@@ -84,9 +84,12 @@ function Favorite(_id){
     favorites.push(
       allProducts.find(x => x['_id']==_id)
     );
+    alert("Aricle added to favorites !");
   }
   else{
-    favorites=favorites.filter(x => x['_id']!==_id);
+    if (confirm("Remove this article from favorites ?")) {
+      favorites=favorites.filter(x => x['_id']!==_id);
+    }
   }
   render(currentProducts, currentPagination);
 }
@@ -103,6 +106,7 @@ const renderProducts = (products, setFavorites=false) => {
       return `
       <div class="col-sm-3 p-3 bg-white text-white card" >
       <span style="color:black; font-weight:bold; text-align:center;">${product.brand.toUpperCase()}</span>
+      <img src="https://www.celio.com/medias/sys_master/productMedias/productMediasImport/h22/h6b/10120899035166/t-shirt-col-rond-coton-stretch-blanc-1061351-1-product.jpg">
       <a href="${product.link}" target="_blank" style="text-align:center;">${product.name}</a>
       <span style="color:black; text-align:right;">${product.price} €
       <button name="favorite" id="favorite" onclick="Favorite('${product._id}')">
