@@ -6,7 +6,7 @@ let currentProducts = [];
 let currentPagination = {};
 var allProducts=[];
 var allBrands=[];
-var selectedBrand="All";
+var selectedBrand="All brands";
 var selectedPage=1;
 var selectedSize=12;
 var currentBrand=0;
@@ -53,15 +53,15 @@ const setCurrentProducts = (result, page=selectedPage, size=selectedSize) => {
  * Fetch products from api
  * @param  {Number}  [page=1] - current page to fetch
  * @param  {Number}  [size=12] - size of the page
- * @param  {String}  [brand="All"] - selected brand
+ * @param  {String}  [brand="All brands"] - selected brand
  * @return {Object}
  */
-const fetchProducts = async (page = 1, size = 12, brand = 'All', cheap=false) => {
+const fetchProducts = async (page = 1, size = 12, brand = 'All brands', cheap=false) => {
   try {
     var query=`http://localhost:8092/products/search?page=${page}&size=${size}`;
     //var query=`https://clear-fashion-dany123000.vercel.app/products/search?page=${page}&size=${size}`;
     var response='';
-    if(brand!='All'){
+    if(brand!='All brands'){
       query+=`&brand=${brand}`;
     }
     if(cheap){
@@ -264,7 +264,7 @@ const sortByPrice = async (desc) => {
 document.addEventListener('DOMContentLoaded', async () => {
   const products = await fetchProducts();
   allProducts = await fetchProducts(1,10000);
-  allBrands.push("All");
+  allBrands.push("All brands");
   for(let i in allProducts){
     allBrands.push(allProducts[i].brand);
   }
