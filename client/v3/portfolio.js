@@ -102,12 +102,13 @@ const renderProducts = (products, setFavorites=false) => {
     .map(product => {
       return `
       <div class="col-sm-3 p-3 bg-white text-white card" >
-      <span style="color:black";>${product.brand}</span>
-      <a href="${product.link}" target="_blank">${product.name}</a>
-      <span style="color:black";>${product.price}</span>
+      <span style="color:black; font-weight:bold; text-align:center;">${product.brand.toUpperCase()}</span>
+      <a href="${product.link}" target="_blank" style="text-align:center;">${product.name}</a>
+      <span style="color:black; text-align:right;">${product.price} €
       <button name="favorite" id="favorite" onclick="Favorite('${product._id}')">
         <span>⭐</span>
       </button>
+      </span>
       </div>
     `;
     })
