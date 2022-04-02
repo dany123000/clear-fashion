@@ -23,14 +23,15 @@ const parse = (data, num = 0) => {
             .text()
         );
         const link = 
-        'https://www.dedicatedbrand.com/en/men/news'+
+        'https://www.dedicatedbrand.com'+
         $(element)
             .find('.productList-link')[1]
             .attribs.href
         ;
         const brand = "dedicated";
-    
-      return {name, price, link, brand};
+        const image = $(element)
+            .find('.productList-image img').attr('data-src');
+      return {name, price, link, brand, image};
     })
     .get();
   }
@@ -53,8 +54,9 @@ const parse = (data, num = 0) => {
             .find('.product-name a').attr('href')
         ;
         const brand = "montlimart";
-    
-      return {name, price, link, brand};
+        const image = $(element)
+            .find('.product-image img').attr('src');
+      return {name, price, link, brand, image};
     })
     .get();
   }
