@@ -86,6 +86,35 @@ const parse = (data, num = 0) => {
     .get();
   }
 
+  if(num==3){
+    return $('.product-grid__item')
+    .map((i, element) => {
+      //console.log(element)
+      const name = $(element)
+        .find('.product-title')
+        .text()
+        .trim()
+        .replace(/\s/g, ' ');
+        const price = parseInt(
+          $(element)
+            .find('.money')
+            .text()
+        );
+        const link = 
+        'https://www.loom.fr' +
+        $(element)
+        .find('.product-title a')
+        .attr('href');
+        const brand = "loom";
+        const image = $(element)
+            .find('.product-grid-image img')
+            .attr('data-src')
+            .replace('{width}','1000')
+            .replace('//','');
+      return {name, price, link, brand, image};
+    })
+    .get();
+  }
 };
 
 /**
@@ -107,6 +136,9 @@ module.exports.scrape = async url => {
       }
       if(url.includes('adresse.paris')){
         return parse(body, 2);
+      }
+      if(url.includes('loom')){
+        return parse(body, 3);
       }
     }
 

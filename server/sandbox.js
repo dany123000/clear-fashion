@@ -10,6 +10,7 @@ async function sandbox () {
     websites.push('https://www.dedicatedbrand.com/en/women/all-women');
     websites.push('https://www.montlimart.com/toute-la-collection.html');
     websites.push('https://adresse.paris/630-toute-la-collection');
+    websites.push('https://www.loom.fr/collections/tous-les-vetements');
 
     for(let eshop in websites){
       console.log(`🕵️‍♀️  browsing ${websites[eshop]} source`);
