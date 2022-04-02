@@ -103,10 +103,14 @@ const renderProducts = (products, setFavorites=false) => {
   const div = document.createElement('div');
   const template = products
     .map(product => {
+      let image = `<img src="https://www.celio.com/medias/sys_master/productMedias/productMediasImport/h22/h6b/10120899035166/t-shirt-col-rond-coton-stretch-blanc-1061351-1-product.jpg">`;
+      if(product.hasOwnProperty('image')){
+        image = `<img src="${product.image}">`;
+      }
       return `
       <div class="col-sm-3 p-3 bg-white text-white card" >
       <span style="color:black; font-weight:bold; text-align:center;">${product.brand.toUpperCase()}</span>
-      <img src="https://www.celio.com/medias/sys_master/productMedias/productMediasImport/h22/h6b/10120899035166/t-shirt-col-rond-coton-stretch-blanc-1061351-1-product.jpg">
+      ${image}
       <a href="${product.link}" target="_blank" style="text-align:center;">${product.name}</a>
       <span style="color:black; text-align:right;">${product.price} €
       <button name="favorite" id="favorite" onclick="Favorite('${product._id}')">
