@@ -1,5 +1,5 @@
 /* eslint-disable no-console, no-process-exit */
-const dedicatedbrand = require('./sources/dedicatedbrand');
+const brands = require('./sources/brands.js');
 var fs = require('fs');
 
 async function sandbox () {
@@ -15,7 +15,7 @@ async function sandbox () {
     for(let eshop in websites){
       console.log(`🕵️‍♀️  browsing ${websites[eshop]} source`);
       
-      let currentProducts = await dedicatedbrand.scrape(websites[eshop]);
+      let currentProducts = await brands.scrape(websites[eshop]);
       for(let i in currentProducts){
         products.push(currentProducts[i]);
       }
