@@ -16,7 +16,6 @@ var p50=0;
 var p90=0;
 var p95=0;
 var allProductsByPrice=[];
-var favorites=[];
 
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
@@ -92,7 +91,6 @@ function Favorite(_id){
       setCookie(favoritesStr, 7, false);
     }
   }
-  console.log(document.cookie)
   render(currentProducts, currentPagination);
 }
 
@@ -101,7 +99,12 @@ function setCookie(cvalue, exdays, append) {
   d.setTime(d.getTime() + (exdays*24*60*60*1000));
   let expires = "expires="+ d.toUTCString();
   if(append){
-    document.cookie = document.cookie + ',' + cvalue + ";" + expires + ";path=/";
+    if(document.cookie){
+      document.cookie = document.cookie + ',' + cvalue + ";" + expires + ";path=/";
+    }
+    else{
+      document.cookie = cvalue + ";" + expires + ";path=/";
+    }
   }
   else{
     document.cookie = cvalue + ";" + expires + ";path=/";
@@ -193,7 +196,8 @@ const renderIndicators = pagination => {
 };
 
 const renderFavorites = favorites => {
-  renderProducts(favorites, true);
+  let products = allProducts.filter(x => favorites.includes(x['_id']));
+  renderProducts(products, true);
 }
 
 const render = (products, pagination) => {
@@ -201,7 +205,7 @@ const render = (products, pagination) => {
   renderBrands(allBrands);
   renderPagination(pagination);
   renderIndicators(pagination);
-  renderFavorites(favorites);
+  renderFavorites(document.cookie.split(','));
 };
 
 /**
