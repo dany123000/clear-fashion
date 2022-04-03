@@ -12,10 +12,6 @@ var selectedSize=12;
 var currentBrand=0;
 var cheap=false;
 var onlyFavorites=false;
-var p50=0;
-var p90=0;
-var p95=0;
-var allProductsByPrice=[];
 
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
@@ -26,9 +22,6 @@ const sectionProducts = document.querySelector('#products');
 const sectionFavorites = document.querySelector('#favorites');
 const spanNbProducts = document.querySelector('#nbProducts');
 const sort = document.querySelector('#sort-select');
-const spanp50 = document.querySelector('#p50');
-const spanp90 = document.querySelector('#p90');
-const spanp95 = document.querySelector('#p95');
 const favoritesFilter = document.querySelector('#favorites-filter');
 
 /**
@@ -78,15 +71,15 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All brands', cheap=fa
   }
 };
 
-function Favorite(_id){
-  if(!document.cookie.split(',').find(x => x == _id)){
-    setCookie(_id, 7, true);
+function Favorite(id){
+  if(!document.cookie.split(',').find(x => x == id)){
+    setCookie(id, 7, true);
     alert("Article added to favorites !");
   }
   else{
     if (confirm("Remove this article from favorites ?")) {
       let favorites = [...document.cookie.split(',')]
-      favorites = favorites.filter(x => x !== _id);
+      favorites = favorites.filter(x => x !== id);
       let favoritesStr = favorites.toString();
       setCookie(favoritesStr, 7, false);
     }
@@ -190,9 +183,6 @@ const renderProducts = (products, setFavorites=false) => {
 const renderIndicators = pagination => {
   const {count} = pagination;
   spanNbProducts.innerHTML = count;
-  spanp50.innerHTML = p50;
-  spanp90.innerHTML = p90;
-  spanp95.innerHTML = p95;
 };
 
 const renderFavorites = favorites => {
@@ -291,12 +281,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     allBrands.push(allProducts[i].brand);
   }
   allBrands=Array.from(new Set(allBrands));
-
-  allProductsByPrice = [...allProducts];
-  allProductsByPrice.sort(ComparePrices);
-  p50 = allProductsByPrice[parseInt(allProductsByPrice.length*0.5)]['price'];
-  p90 = allProductsByPrice[parseInt(allProductsByPrice.length*0.9)]['price'];
-  p95 = allProductsByPrice[parseInt(allProductsByPrice.length*0.95)]['price'];
 
   setCurrentProducts(products,selectedPage,selectedSize);
   render(currentProducts, currentPagination);
