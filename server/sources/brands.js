@@ -109,8 +109,7 @@ const parse = (data, num = 0) => {
         const image = $(element)
             .find('.product-grid-image img')
             .attr('data-src')
-            .replace('{width}','1000')
-            .replace('//','');
+            .replace('{width}','1000');
       return {name, price, link, brand, image};
     })
     .get();
