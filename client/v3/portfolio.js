@@ -80,18 +80,32 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All brands', cheap=fa
 };
 
 function Favorite(_id){
-  if(!favorites.find(x => x['_id']==_id)){
-    favorites.push(
-      allProducts.find(x => x['_id']==_id)
-    );
+  if(!document.cookie.split(',').find(x => x == _id)){
+    setCookie(_id, 7, true);
     alert("Article added to favorites !");
   }
   else{
     if (confirm("Remove this article from favorites ?")) {
-      favorites=favorites.filter(x => x['_id']!==_id);
+      let favorites = [...document.cookie.split(',')]
+      favorites = favorites.filter(x => x !== _id);
+      let favoritesStr = favorites.toString();
+      setCookie(favoritesStr, 7, false);
     }
   }
+  console.log(document.cookie)
   render(currentProducts, currentPagination);
+}
+
+function setCookie(cvalue, exdays, append) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  let expires = "expires="+ d.toUTCString();
+  if(append){
+    document.cookie = document.cookie + ',' + cvalue + ";" + expires + ";path=/";
+  }
+  else{
+    document.cookie = cvalue + ";" + expires + ";path=/";
+  }
 }
 
 /**
