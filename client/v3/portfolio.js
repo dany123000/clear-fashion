@@ -50,8 +50,8 @@ const setCurrentProducts = (result, page=selectedPage, size=selectedSize) => {
  */
 const fetchProducts = async (page = 1, size = 12, brand = 'All brands', cheap=false) => {
   try {
-    var query=`http://localhost:8092/products/search?page=${page}&size=${size}`;
-    //var query=`https://clear-fashion-dany123000.vercel.app/products/search?page=${page}&size=${size}`;
+    //var query=`http://localhost:8092/products/search?page=${page}&size=${size}`;
+    var query=`https://clear-fashion-dany123000.vercel.app/products/search?page=${page}&size=${size}`;
     var response='';
     if(brand!='All brands'){
       query+=`&brand=${brand}`;
@@ -222,8 +222,8 @@ const render = (products, pagination) => {
 
 selectBrand.addEventListener('change', async (event) => {
   selectedBrand = event.target.value;
-  const products = await fetchProducts(selectedPage, selectedSize, selectedBrand, cheap);
-  setCurrentProducts(products,selectedPage,selectedSize);
+  const products = await fetchProducts(1, selectedSize, selectedBrand, cheap);
+  setCurrentProducts(products,1,selectedSize);
   currentBrand = allBrands.indexOf(selectedBrand);
   render(currentProducts, currentPagination);
 });
@@ -242,8 +242,8 @@ function ComparePrices(a,b){
 
 selectCheap.addEventListener('change', async () => {
   cheap=!cheap;
-  var products = await fetchProducts(selectedPage, selectedSize, selectedBrand, cheap);
-  setCurrentProducts(products);
+  var products = await fetchProducts(1, selectedSize, selectedBrand, cheap);
+  setCurrentProducts(products,1);
   render(currentProducts, currentPagination);
 });
 
@@ -262,14 +262,14 @@ favoritesFilter.addEventListener('change', async () => {
 })
 
 const sortByPrice = async (desc) => {
-  var products = await fetchProducts(selectedPage, selectedSize, selectedBrand, cheap);
+  var products = await fetchProducts(1, selectedSize, selectedBrand, cheap);
   if(!desc){
     products.sort(ComparePrices);
   }
   else{
     products.sort(ComparePrices).reverse();
   }
-  setCurrentProducts(products,selectedPage,selectedSize);
+  setCurrentProducts(products,1,selectedSize);
   render(currentProducts, currentPagination);
 };
 
