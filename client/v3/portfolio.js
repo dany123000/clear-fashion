@@ -78,7 +78,7 @@ function Favorite(id){
   }
   else{
     if (confirm("Remove this article from favorites ?")) {
-      let favorites = [...document.cookie.split(',')]
+      let favorites = [...document.cookie.split(',')];
       favorites = favorites.filter(x => x !== id);
       let favoritesStr = favorites.toString();
       setCookie(favoritesStr, 7, false);
@@ -92,7 +92,7 @@ function setCookie(cvalue, exdays, append) {
   d.setTime(d.getTime() + (exdays*24*60*60*1000));
   let expires = "expires="+ d.toUTCString();
   if(append){
-    if(document.cookie){
+    if(document.cookie||document.cookie=='empty'){
       document.cookie = document.cookie + ',' + cvalue + ";" + expires + ";path=/";
     }
     else{
@@ -100,6 +100,10 @@ function setCookie(cvalue, exdays, append) {
     }
   }
   else{
+    if(cvalue=='')
+    {
+      cvalue = 'empty';
+    }
     document.cookie = cvalue + ";" + expires + ";path=/";
   }
 }
