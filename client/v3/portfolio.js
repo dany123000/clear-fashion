@@ -84,13 +84,16 @@ function Favorite(id){
     .alert {
       position: fixed;
       z-index:1;
-      padding: 20px;
+      top: 0;
+      width: 500px;
+      margin: 0 auto;
+      background: white;
+      padding: 10px;
       background-color: #f44336;
       color: white;
       opacity: 1;
       transition: opacity 0.6s;
-      margin-bottom: 15px;
-    }
+      }
     
     .alert.success {background-color: #04AA6D;}
     .alert.info {background-color: #2196F3;}
@@ -131,13 +134,16 @@ function Favorite(id){
         .alert {
           position: fixed;
           z-index:1;
-          padding: 20px;
+          top: 0;
+          width: 500px;
+          margin: 0 auto;
+          background: white;
+          padding: 10px;
           background-color: #f44336;
           color: white;
           opacity: 1;
           transition: opacity 0.6s;
-          margin-bottom: 15px;
-        }
+          }
         
         .alert.success {background-color: #04AA6D;}
         .alert.info {background-color: #2196F3;}
