@@ -18,6 +18,7 @@ const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
 const selectBrand = document.querySelector('#brand-select');
 const selectCheap = document.querySelector('#cheap');
+const sectionAddedToFav = document.querySelector('#added-fav');
 const sectionProducts = document.querySelector('#products');
 const sectionFavorites = document.querySelector('#favorites');
 const spanNbProducts = document.querySelector('#nbProducts');
@@ -74,7 +75,16 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All brands', cheap=fa
 function Favorite(id){
   if(!document.cookie.split(',').find(x => x == id)){
     setCookie(id, 7, true);
-    alert("Article added to favorites !");
+    const fragment = document.createDocumentFragment();
+    const div = document.createElement('div');
+    const template = `
+    <span class="closebtn">&times;</span>  
+    <strong>Success!</strong> Article added to favorites !
+    `
+    div.setAttribute("class", "alert success");
+    div.innerHTML = template;
+    fragment.appendChild(div);
+    sectionAddedToFav.appendChild(fragment);
   }
   else{
     if (confirm("Remove this article from favorites ?")) {
@@ -263,6 +273,19 @@ sort.addEventListener('change', async(event) => {
 favoritesFilter.addEventListener('change', async () => {
   onlyFavorites = !onlyFavorites;
   render(currentProducts, currentPagination);
+})
+
+sectionAddedToFav.addEventListener("click", () => {
+  var close = document.getElementsByClassName("closebtn");
+  var i;
+
+  for (i = 0; i < close.length; i++) {
+    close[i].onclick = function(){
+      var div = this.parentElement;
+      div.style.opacity = "0";
+      setTimeout(function(){ div.style.display = "none"; }, 600);
+    }
+  }
 })
 
 const sortByPrice = async (desc) => {
