@@ -75,7 +75,6 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All brands', cheap=fa
 function Favorite(id){
   if(!document.cookie.split(',').find(x => x == id)){
     setCookie(id, 7, true);
-    const fragment = document.createDocumentFragment();
     const div = document.createElement('div');
     const template = `
     <span class="closebtn">&times;</span>  
@@ -83,8 +82,7 @@ function Favorite(id){
     `
     div.setAttribute("class", "alert success");
     div.innerHTML = template;
-    fragment.appendChild(div);
-    sectionAddedToFav.appendChild(fragment);
+    sectionAddedToFav.appendChild(div);
   }
   else{
     if (confirm("Remove this article from favorites ?")) {
@@ -92,7 +90,6 @@ function Favorite(id){
       favorites = favorites.filter(x => x !== id);
       let favoritesStr = favorites.toString();
       setCookie(favoritesStr, 7, false);
-      const fragment = document.createDocumentFragment();
       const div = document.createElement('div');
       const template = `
       <span class="closebtn">&times;</span>  
@@ -100,8 +97,7 @@ function Favorite(id){
       `
       div.setAttribute("class", "alert");
       div.innerHTML = template;
-      fragment.appendChild(div);
-      sectionAddedToFav.appendChild(fragment);
+      sectionAddedToFav.appendChild(div);
       }
   }
   render(currentProducts, currentPagination);
@@ -288,7 +284,6 @@ favoritesFilter.addEventListener('change', async () => {
 sectionAddedToFav.addEventListener("click", () => {
   var close = document.getElementsByClassName("closebtn");
   var i;
-
   for (i = 0; i < close.length; i++) {
     close[i].onclick = function(){
       var div = this.parentElement;
