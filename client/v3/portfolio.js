@@ -331,8 +331,15 @@ const render = (products, pagination) => {
 });
 
 pageNumber.addEventListener('click', async (event) => {
-  const products = await fetchProducts(parseInt(event.target.innerHTML), selectedSize, selectedBrand, cheap);
-  setCurrentProducts(products,parseInt(event.target.innerHTML),selectedSize);
+  let number = event.target.innerHTML;
+  if(number=="Previous"){
+    number = currentPagination.currentPage - 1;
+  }
+  if(number=="Next"){
+    number = currentPagination.currentPage + 1;
+  }
+  const products = await fetchProducts(parseInt(number), selectedSize, selectedBrand, cheap);
+  setCurrentProducts(products,parseInt(number),selectedSize);
   render(currentProducts, currentPagination);
 })
 
