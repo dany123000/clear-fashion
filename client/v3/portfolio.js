@@ -225,7 +225,7 @@ const renderProducts = (products, setFavorites=false) => {
  */
  const renderPageNumber = pagination => {
   const {currentPage, pageCount} = pagination;
-  const range = [currentPage - 5, currentPage + 5];
+  const range = [currentPage - 8, currentPage + 8];
   if(range[0] < 1){
     range[0] = 1;
   }
