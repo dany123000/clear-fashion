@@ -141,6 +141,15 @@ function Favorite(id){
       sectionAddedToFav.appendChild(div);
       }
   }
+  var close = document.getElementsByClassName("closebtn");
+  var i;
+  for (i = 0; i < close.length; i++) {
+    close[i].onclick = function(){
+      var div = this.parentElement;
+      div.style.opacity = "0";
+      setTimeout(function(){ div.style.display = "none"; }, 600);
+    }
+  }
   render(currentProducts, currentPagination);
 }
 
@@ -320,18 +329,6 @@ sort.addEventListener('change', async(event) => {
 favoritesFilter.addEventListener('change', async () => {
   onlyFavorites = !onlyFavorites;
   render(currentProducts, currentPagination);
-})
-
-sectionAddedToFav.addEventListener("click", async() => {
-  var close = document.getElementsByClassName("closebtn");
-  var i;
-  for (i = 0; i < close.length; i++) {
-    close[i].onclick = function(){
-      var div = this.parentElement;
-      div.style.opacity = "0";
-      setTimeout(function(){ div.style.display = "none"; }, 600);
-    }
-  }
 })
 
 const sortByPrice = async (desc) => {
