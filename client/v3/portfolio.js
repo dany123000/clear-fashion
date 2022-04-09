@@ -225,7 +225,7 @@ const renderProducts = (products, setFavorites=false) => {
  */
  const renderPageNumber = pagination => {
   const {currentPage, pageCount} = pagination;
-  const range = [currentPage - 8, currentPage + 8];
+  const range = [currentPage - 6, currentPage + 6];
   if(range[0] < 1){
     range[0] = 1;
   }
@@ -233,9 +233,15 @@ const renderProducts = (products, setFavorites=false) => {
     range[1] = pageCount;
   }
   const finalRange = ['First'];
+  if(range[0]!==1){
+    finalRange.push('...');
+  }
   for(let i = range[0]; i <= range[1]; i++)
   {
     finalRange.push(i);
+  }
+  if(range[1]!==pageCount){
+    finalRange.push('...');
   }
   finalRange.push('Last');
   while(pageNumber.firstChild){
@@ -316,9 +322,11 @@ pageNumber.addEventListener('click', async (event) => {
   if(number=="Last"){
     number = currentPagination.pageCount;
   }
-  const products = await fetchProducts(parseInt(number), selectedSize, selectedBrand, cheap);
-  setCurrentProducts(products,parseInt(number),selectedSize);
-  render(currentProducts, currentPagination);
+  if(number!=='...'){
+    const products = await fetchProducts(parseInt(number), selectedSize, selectedBrand, cheap);
+    setCurrentProducts(products,parseInt(number),selectedSize);
+    render(currentProducts, currentPagination);  
+  }
 })
 
 selectBrand.addEventListener('change', async (event) => {
