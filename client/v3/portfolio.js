@@ -79,7 +79,7 @@ function Favorite(id){
     const div = document.createElement('div');
     const template = `
     <span class="closebtn">&times;</span>  
-    <strong>Success!</strong> Article added to favorites !
+    Article added to favorites!
     `
     div.setAttribute("class", "alert success");
     div.innerHTML = template;
@@ -92,7 +92,17 @@ function Favorite(id){
       favorites = favorites.filter(x => x !== id);
       let favoritesStr = favorites.toString();
       setCookie(favoritesStr, 7, false);
-    }
+      const fragment = document.createDocumentFragment();
+      const div = document.createElement('div');
+      const template = `
+      <span class="closebtn">&times;</span>  
+      Article removed from favorites!
+      `
+      div.setAttribute("class", "alert");
+      div.innerHTML = template;
+      fragment.appendChild(div);
+      sectionAddedToFav.appendChild(fragment);
+      }
   }
   render(currentProducts, currentPagination);
 }
