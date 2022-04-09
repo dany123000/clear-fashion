@@ -35,7 +35,7 @@ const setCurrentProducts = (result, page=selectedPage, size=selectedSize) => {
   currentPagination = {
     "count":allProducts.length,
     "currentPage":page,
-    "pageCount":parseInt(allProducts.length/size),
+    "pageCount":parseInt(allProducts.length/size) + 1,
     "pageSize":size
   };
   selectedPage=page;
