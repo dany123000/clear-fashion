@@ -15,7 +15,6 @@ var onlyFavorites=false;
 
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
-const selectPage = document.querySelector('#page-select');
 const pageNumber = document.querySelector('#page-number');
 const selectBrand = document.querySelector('#brand-select');
 const selectCheap = document.querySelector('#cheap');
@@ -224,20 +223,6 @@ const renderProducts = (products, setFavorites=false) => {
  * Render page selector
  * @param  {Object} pagination
  */
- const renderPagination = pagination => {
-  const {currentPage, pageCount} = pagination;
-  const options = Array.from(
-    {'length': pageCount},
-    (value, index) => `<option value="${index + 1}">${index + 1}</option>`
-  ).join('');
-  selectPage.innerHTML = options;
-  selectPage.selectedIndex = currentPage - 1;
-};
-
-/**
- * Render page number
- * @param  {Object} pagination
- */
  const renderPageNumber = pagination => {
   const {currentPage, pageCount} = pagination;
   const range = [currentPage - 5, currentPage + 5];
@@ -302,7 +287,6 @@ const renderFavorites = favorites => {
 const render = (products, pagination) => {
   renderProducts(products);
   renderBrands(allBrands);
-  renderPagination(pagination);
   renderPageNumber(pagination);
   renderIndicators(pagination);
   renderFavorites(document.cookie.split(','));
@@ -324,12 +308,6 @@ const render = (products, pagination) => {
 /**
  * Select the page to display
  */
- selectPage.addEventListener('change', async (event) => {
-  const products = await fetchProducts(parseInt(event.target.value), selectedSize, selectedBrand, cheap);
-  setCurrentProducts(products,parseInt(event.target.value),selectedSize);
-  render(currentProducts, currentPagination);
-});
-
 pageNumber.addEventListener('click', async (event) => {
   let number = event.target.innerHTML;
   if(number=="Previous"){
