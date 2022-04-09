@@ -16,6 +16,7 @@ var onlyFavorites=false;
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
+const pageNumber = document.querySelector('#page-number');
 const selectBrand = document.querySelector('#brand-select');
 const selectCheap = document.querySelector('#cheap');
 const sectionAddedToFav = document.querySelector('#added-fav');
@@ -289,6 +290,12 @@ const render = (products, pagination) => {
   setCurrentProducts(products,parseInt(event.target.value),selectedSize);
   render(currentProducts, currentPagination);
 });
+
+pageNumber.addEventListener('click', async (event) => {
+  const products = await fetchProducts(parseInt(event.target.innerHTML), selectedSize, selectedBrand, cheap);
+  setCurrentProducts(products,parseInt(event.target.innerHTML),selectedSize);
+  render(currentProducts, currentPagination);
+})
 
 selectBrand.addEventListener('change', async (event) => {
   selectedBrand = event.target.value;
