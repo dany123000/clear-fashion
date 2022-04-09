@@ -235,6 +235,44 @@ const renderProducts = (products, setFavorites=false) => {
 };
 
 /**
+ * Render page number
+ * @param  {Object} pagination
+ */
+ const renderPageNumber = pagination => {
+  const {currentPage, pageCount} = pagination;
+  const range = [currentPage - 5, currentPage + 5];
+  if(range[0] < 1){
+    range[0] = 1;
+  }
+  if(range[1] > pageCount){
+    range[1] = pageCount;
+  }
+  const finalRange = ['Previous'];
+  for(let i = range[0]; i <= range[1]; i++)
+  {
+    finalRange.push(i);
+  }
+  finalRange.push('Next');
+  while(pageNumber.firstChild){
+    pageNumber.removeChild(pageNumber.firstChild);
+  }
+  for(let i in finalRange){
+    const li = document.createElement('li');
+    var template = `
+    <a class="page-link">${finalRange[i]}</a>
+    `
+    if(finalRange[i]==currentPage){
+      template = `
+      <a class="page-link" style="color:white; background-color:blue;">${finalRange[i]}</a>
+      `  
+    }
+    li.setAttribute("class", "page-item");
+    li.innerHTML = template;
+    pageNumber.appendChild(li);  
+  }
+};
+
+/**
  * Render brands selector
  * @param  {Object} brands
  */
@@ -265,6 +303,7 @@ const render = (products, pagination) => {
   renderProducts(products);
   renderBrands(allBrands);
   renderPagination(pagination);
+  renderPageNumber(pagination);
   renderIndicators(pagination);
   renderFavorites(document.cookie.split(','));
 };
