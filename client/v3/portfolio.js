@@ -116,7 +116,7 @@ function Favorite(id){
     const div = document.createElement('div');
     const template = `
     <span class="closebtn">&times;</span>  
-    Article added to favorites!
+    🛒 Article added to favorites!
     ${styleAlert}
     `
     div.setAttribute("class", "alert success");
@@ -133,7 +133,7 @@ function Favorite(id){
       const div = document.createElement('div');
       const template = `
       <span class="closebtn">&times;</span>  
-      Article removed from favorites!
+      🗑️ Article removed from favorites!
       ${styleAlert}
       `
       div.setAttribute("class", "alert");
