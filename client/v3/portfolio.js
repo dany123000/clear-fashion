@@ -232,12 +232,12 @@ const renderProducts = (products, setFavorites=false) => {
   if(range[1] > pageCount){
     range[1] = pageCount;
   }
-  const finalRange = ['Previous'];
+  const finalRange = ['First'];
   for(let i = range[0]; i <= range[1]; i++)
   {
     finalRange.push(i);
   }
-  finalRange.push('Next');
+  finalRange.push('Last');
   while(pageNumber.firstChild){
     pageNumber.removeChild(pageNumber.firstChild);
   }
@@ -310,11 +310,11 @@ const render = (products, pagination) => {
  */
 pageNumber.addEventListener('click', async (event) => {
   let number = event.target.innerHTML;
-  if(number=="Previous"){
-    number = currentPagination.currentPage - 1;
+  if(number=="First"){
+    number = 1;
   }
-  if(number=="Next"){
-    number = currentPagination.currentPage + 1;
+  if(number=="Last"){
+    number = currentPagination.pageCount;
   }
   const products = await fetchProducts(parseInt(number), selectedSize, selectedBrand, cheap);
   setCurrentProducts(products,parseInt(number),selectedSize);
