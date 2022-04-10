@@ -74,6 +74,9 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All brands', cheap=fa
   }
 };
 
+/**
+ * Add a favorite or delete it (if it is already a favorite)
+ */
 function Favorite(id){
   if(!document.cookie.split(',').find(x => x == id)){
     setCookie(id, 7, true);
@@ -115,6 +118,9 @@ function Favorite(id){
   render(currentProducts, currentPagination);
 }
 
+/**
+ * Set cookie with list of favorites
+ */
 function setCookie(cvalue, exdays, append) {
   const d = new Date();
   d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -244,7 +250,10 @@ const renderIndicators = () => {
   spanNbProducts.innerHTML = currentProductsAllPages.length + '/' + currentPagination.count;
 };
 
-const renderFavorites = favorites => {
+/**
+ * Render list of favorites
+ */
+ const renderFavorites = favorites => {
   let products = allProducts.filter(x => favorites.includes(x['_id']));
   renderProducts(products, true);
 }
@@ -256,10 +265,6 @@ const render = () => {
   renderIndicators(currentPagination);
   renderFavorites(document.cookie.split(','));
 };
-
-/**
- * Declaration of all Listeners
- */
 
 /**
  * Select the number of products to display
@@ -308,6 +313,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     allBrands.push(allProducts[i].brand);
   }
   allBrands=Array.from(new Set(allBrands));
-
   setCurrentProducts();
 });
