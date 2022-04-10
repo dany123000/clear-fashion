@@ -50,7 +50,7 @@ const setCurrentProducts = (result, page=selectedPage, size=selectedSize) => {
  * @param  {String}  [brand="All brands"] - selected brand
  * @return {Object}
  */
-const fetchProducts = async (page = 1, size = 12, brand = 'All brands', cheap=false) => {
+const fetchProducts = async (page = 1, size = 12, brand = 'All brands', cheap=false, reverse=false) => {
   try {
     //var query=`http://localhost:8092/products/search?page=${page}&size=${size}`;
     var query=`https://clear-fashion-dany123000.vercel.app/products/search?page=${page}&size=${size}`;
@@ -60,6 +60,9 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All brands', cheap=fa
     }
     if(cheap){
       query+=`&price=50`;
+    }
+    if(reverse){
+      query+=`&reverse`;
     }
     response = await fetch(query);
 
@@ -337,13 +340,14 @@ favoritesFilter.addEventListener('change', async () => {
 })
 
 const sortByPrice = async (desc) => {
-  var products = await fetchProducts(1, selectedSize, selectedBrand, cheap);
-  currentProductsAllPages = await fetchProducts(1, 10000, selectedBrand, cheap);
+  var products;
   if(!desc){
-    products.sort(ComparePrices);
+    products = await fetchProducts(1, selectedSize, selectedBrand, cheap, false);
+    currentProductsAllPages = await fetchProducts(1, 10000, selectedBrand, cheap, false);
   }
   else{
-    products.sort(ComparePrices).reverse();
+    products = await fetchProducts(1, selectedSize, selectedBrand, cheap, true);
+    currentProductsAllPages = await fetchProducts(1, 10000, selectedBrand, cheap, true);
   }
   setCurrentProducts(products,1,selectedSize);
   render(currentProducts, currentPagination);
