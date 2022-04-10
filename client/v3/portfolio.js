@@ -181,6 +181,9 @@ const renderProducts = (products, setFavorites=false) => {
   }
   if(setFavorites){
     sectionFavorites.innerHTML = '<h2>Favorites</h2>';
+    if(products.length==0){
+      sectionFavorites.append(`You don't have any favorite for the moment 😢`);
+    }
     sectionFavorites.appendChild(fragment);
   }
 };
