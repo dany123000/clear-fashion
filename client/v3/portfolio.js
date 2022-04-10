@@ -66,14 +66,11 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All brands', cheap=fa
       query+=`&reverse`;
     }
     response = await fetch(query);
-
-
   const body = await response.json();
-
   return body;
   } catch (error) {
     console.error(error);
-    return {currentProducts, currentPagination};
+    return currentProducts;
   }
 };
 
@@ -189,14 +186,13 @@ const renderProducts = (products, setFavorites=false) => {
 /**
  * Render page selector
  */
- const renderPageNumber = pagination => {
-  const {currentPage, pageCount} = pagination;
-  const range = [currentPage - 6, currentPage + 6];
+ const renderPageNumber = () => {
+  const range = [currentPagination.currentPage - 6, currentPagination.currentPage + 6];
   if(range[0] < 1){
     range[0] = 1;
   }
-  if(range[1] > pageCount){
-    range[1] = pageCount;
+  if(range[1] > currentPagination.pageCount){
+    range[1] = currentPagination.pageCount;
   }
   const finalRange = ['First'];
   if(range[0]!==1){
@@ -206,7 +202,7 @@ const renderProducts = (products, setFavorites=false) => {
   {
     finalRange.push(i);
   }
-  if(range[1]!==pageCount){
+  if(range[1]!==currentPagination.pageCount){
     finalRange.push('...');
   }
   finalRange.push('Last');
@@ -218,7 +214,7 @@ const renderProducts = (products, setFavorites=false) => {
     let template = `
     <a class="page-link" style="color:green;">${finalRange[i]}</a>
     `
-    if(finalRange[i]==currentPage){
+    if(finalRange[i]==currentPagination.currentPage){
       template = `
       <a class="page-link" style="color:white; background-color:green;">${finalRange[i]}</a>
       `  
@@ -244,9 +240,8 @@ const renderProducts = (products, setFavorites=false) => {
 /**
  * Render page selector
  */
-const renderIndicators = pagination => {
-  const {count} = pagination;
-  spanNbProducts.innerHTML = currentProductsAllPages.length + '/' + count;
+const renderIndicators = () => {
+  spanNbProducts.innerHTML = currentProductsAllPages.length + '/' + currentPagination.count;
 };
 
 const renderFavorites = favorites => {
@@ -254,11 +249,11 @@ const renderFavorites = favorites => {
   renderProducts(products, true);
 }
 
-const render = (products, pagination) => {
-  renderProducts(products);
+const render = () => {
+  renderProducts(currentProducts);
   renderBrands(allBrands);
-  renderPageNumber(pagination);
-  renderIndicators(pagination);
+  renderPageNumber(currentPagination);
+  renderIndicators(currentPagination);
   renderFavorites(document.cookie.split(','));
 };
 
