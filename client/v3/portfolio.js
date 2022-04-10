@@ -17,7 +17,7 @@ var onlyFavorites=false;
 
 // instantiate the selectors
 const selectShow = document.querySelector('#show-select');
-const pageNumber = document.querySelector('#page-number');
+const selectPage = document.querySelector('#page-number');
 const selectBrand = document.querySelector('#brand-select');
 const selectCheap = document.querySelector('#cheap');
 const sectionAddedToFav = document.querySelector('#added-fav');
@@ -210,8 +210,8 @@ const renderProducts = (products, setFavorites=false) => {
     finalRange.push('...');
   }
   finalRange.push('Last');
-  while(pageNumber.firstChild){
-    pageNumber.removeChild(pageNumber.firstChild);
+  while(selectPage.firstChild){
+    selectPage.removeChild(selectPage.firstChild);
   }
   for(let i in finalRange){
     const li = document.createElement('li');
@@ -225,7 +225,7 @@ const renderProducts = (products, setFavorites=false) => {
     }
     li.setAttribute("class", "page-item");
     li.innerHTML = template;
-    pageNumber.appendChild(li);  
+    selectPage.appendChild(li);  
   }
 };
 
@@ -276,7 +276,7 @@ const render = (products, pagination) => {
 /**
  * Select the page to display
  */
-pageNumber.addEventListener('click', async (event) => {
+selectPage.addEventListener('click', async (event) => {
   let number = event.target.innerHTML;
   if(number=="First"){
     number = 1;
