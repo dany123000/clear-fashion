@@ -106,7 +106,8 @@ const parse = (data, num = 0) => {
         .find('.product-title a')
         .attr('href');
         const brand = "loom";
-        const image = $(element)
+        const image = 'https:' +
+        $(element)
             .find('.product-grid-image img')
             .attr('data-src')
             .replace('{width}','1000');
