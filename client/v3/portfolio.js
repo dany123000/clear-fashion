@@ -29,8 +29,6 @@ const favoritesFilter = document.querySelector('#favorites-filter');
 
 /**
  * Set global value
- * @param {Array} result - products to display
- * @param {Object} meta - pagination meta info
  */
 const setCurrentProducts = (result, page=selectedPage, size=selectedSize) => {
   currentProducts = result;
@@ -46,10 +44,6 @@ const setCurrentProducts = (result, page=selectedPage, size=selectedSize) => {
 
 /**
  * Fetch products from api
- * @param  {Number}  [page=1] - current page to fetch
- * @param  {Number}  [size=12] - size of the page
- * @param  {String}  [brand="All brands"] - selected brand
- * @return {Object}
  */
 const fetchProducts = async (page = 1, size = 12, brand = 'All brands', cheap=false, reverse=false) => {
   try {
@@ -141,7 +135,6 @@ function setCookie(cvalue, exdays, append) {
 
 /**
  * Render list of products
- * @param  {Array} products
  */
 const renderProducts = (products, setFavorites=false) => {
   const fragment = document.createDocumentFragment();
@@ -189,7 +182,6 @@ const renderProducts = (products, setFavorites=false) => {
 
 /**
  * Render page selector
- * @param  {Object} pagination
  */
  const renderPageNumber = pagination => {
   const {currentPage, pageCount} = pagination;
@@ -233,7 +225,6 @@ const renderProducts = (products, setFavorites=false) => {
 
 /**
  * Render brands selector
- * @param  {Object} brands
  */
  const renderBrands = brands => {
   const options = Array.from(
@@ -246,7 +237,6 @@ const renderProducts = (products, setFavorites=false) => {
 
 /**
  * Render page selector
- * @param  {Object} pagination
  */
 const renderIndicators = pagination => {
   const {count} = pagination;
