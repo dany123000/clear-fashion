@@ -186,7 +186,7 @@ const renderProducts = (products, setFavorites=false) => {
 /**
  * Render page selector
  */
- const renderPageNumber = () => {
+ const renderPageSelector = () => {
   const range = [currentPagination.currentPage - 6, currentPagination.currentPage + 6];
   if(range[0] < 1){
     range[0] = 1;
@@ -252,7 +252,7 @@ const renderFavorites = favorites => {
 const render = () => {
   renderProducts(currentProducts);
   renderBrands(allBrands);
-  renderPageNumber(currentPagination);
+  renderPageSelector(currentPagination);
   renderIndicators(currentPagination);
   renderFavorites(document.cookie.split(','));
 };
