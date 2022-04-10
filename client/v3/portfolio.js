@@ -8,11 +8,11 @@ var currentPagination = {};
 var allProducts=[];
 var allBrands=[];
 var selectedBrand="All brands";
+var currentBrand=0;
 var selectedPage=1;
 var selectedSize=12;
-var currentBrand=0;
-var cheap=false;
-var reverse=false;
+var selectedCheap=false;
+var selectedReverse=false;
 var onlyFavorites=false;
 
 // instantiate the selectors
@@ -24,22 +24,28 @@ const sectionAddedToFav = document.querySelector('#added-fav');
 const sectionProducts = document.querySelector('#products');
 const sectionFavorites = document.querySelector('#favorites');
 const spanNbProducts = document.querySelector('#nbProducts');
-const sort = document.querySelector('#sort-select');
+const sortProducts = document.querySelector('#sort-select');
 const favoritesFilter = document.querySelector('#favorites-filter');
 
 /**
  * Set global value
  */
-const setCurrentProducts = (result, page=selectedPage, size=selectedSize) => {
-  currentProducts = result;
+const setCurrentProducts = async(page=selectedPage, size=selectedSize, brand=selectedBrand, cheap=false, reverse=false) => {
+  currentProducts = await fetchProducts(page, size, brand, cheap, reverse);
+  currentProductsAllPages = await fetchProducts(1, 10000, brand, cheap, reverse);
   currentPagination = {
     "count":allProducts.length,
     "currentPage":page,
     "pageCount":parseInt(currentProductsAllPages.length/size) + 1,
     "pageSize":size
   };
-  selectedPage=page;
-  selectedSize=size;
+  selectedPage = page;
+  selectedSize = size;
+  selectedBrand = brand;
+  currentBrand = allBrands.indexOf(selectedBrand);
+  selectedCheap = cheap;
+  selectedReverse = reverse;
+  render(currentProducts, currentPagination);
 };
 
 /**
@@ -264,10 +270,7 @@ const render = (products, pagination) => {
  * Select the number of products to display
  */
  selectShow.addEventListener('change', async (event) => {
-  const products = await fetchProducts(1, parseInt(event.target.value), selectedBrand, cheap, reverse);
-  currentProductsAllPages = await fetchProducts(1, 10000, selectedBrand, cheap, reverse);
-  setCurrentProducts(products,1,parseInt(event.target.value));
-  render(currentProducts, currentPagination);
+  setCurrentProducts(1, parseInt(event.target.value), selectedBrand, selectedCheap, selectedReverse);
 });
 
 /**
@@ -282,36 +285,20 @@ pageNumber.addEventListener('click', async (event) => {
     number = currentPagination.pageCount;
   }
   if(number!=='...'){
-    const products = await fetchProducts(parseInt(number), selectedSize, selectedBrand, cheap, reverse);
-    currentProductsAllPages = await fetchProducts(1, 10000, selectedBrand, cheap, reverse);
-    setCurrentProducts(products,parseInt(number),selectedSize);
-    render(currentProducts, currentPagination);  
+    setCurrentProducts(parseInt(number), selectedSize, selectedBrand, selectedCheap, selectedReverse);
   }
 })
 
 selectBrand.addEventListener('change', async (event) => {
-  selectedBrand = event.target.value;
-  const products = await fetchProducts(1, selectedSize, selectedBrand, cheap, reverse);
-  currentProductsAllPages = await fetchProducts(1, 10000, selectedBrand, cheap, reverse);
-  setCurrentProducts(products,1,selectedSize);
-  currentBrand = allBrands.indexOf(selectedBrand);
-  render(currentProducts, currentPagination);
+  setCurrentProducts(1, selectedSize, event.target.value, selectedCheap, selectedReverse);
 });
 
 selectCheap.addEventListener('change', async () => {
-  cheap=!cheap;
-  var products = await fetchProducts(1, selectedSize, selectedBrand, cheap, reverse);
-  currentProductsAllPages = await fetchProducts(1, 10000, selectedBrand, cheap, reverse);
-  setCurrentProducts(products,1);
-  render(currentProducts, currentPagination);
+  setCurrentProducts(1, selectedSize, selectedBrand, !selectedCheap, selectedReverse);
 });
 
-sort.addEventListener('change', async(event) => {
-  reverse=!reverse;
-  var products = await fetchProducts(1, selectedSize, selectedBrand, cheap, reverse);
-  currentProductsAllPages = await fetchProducts(1, 10000, selectedBrand, cheap, reverse);
-  setCurrentProducts(products,1,selectedSize);
-  render(currentProducts, currentPagination);
+sortProducts.addEventListener('change', async(event) => {
+  setCurrentProducts(1, selectedSize, selectedBrand, selectedCheap, !selectedReverse);
 })
 
 favoritesFilter.addEventListener('change', async () => {
@@ -320,8 +307,6 @@ favoritesFilter.addEventListener('change', async () => {
 })
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const products = await fetchProducts();
-  currentProductsAllPages = await fetchProducts(1, 10000, selectedBrand, cheap, reverse);
   allProducts = await fetchProducts(1,10000);
   allBrands.push("All brands");
   for(let i in allProducts){
@@ -329,6 +314,5 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
   allBrands=Array.from(new Set(allBrands));
 
-  setCurrentProducts(products,selectedPage,selectedSize);
-  render(currentProducts, currentPagination);
+  setCurrentProducts();
 });
