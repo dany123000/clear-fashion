@@ -2,9 +2,9 @@
 'use strict';
 
 // current products on the page
-let currentProducts = [];
-let currentProductsAllPages = [];
-let currentPagination = {};
+var currentProducts = [];
+var currentProductsAllPages = [];
+var currentPagination = {};
 var allProducts=[];
 var allBrands=[];
 var selectedBrand="All brands";
@@ -53,9 +53,9 @@ const setCurrentProducts = (result, page=selectedPage, size=selectedSize) => {
  */
 const fetchProducts = async (page = 1, size = 12, brand = 'All brands', cheap=false, reverse=false) => {
   try {
-    //var query=`http://localhost:8092/products/search?page=${page}&size=${size}`;
-    var query=`https://clear-fashion-dany123000.vercel.app/products/search?page=${page}&size=${size}`;
-    var response='';
+    //let query=`http://localhost:8092/products/search?page=${page}&size=${size}`;
+    let query=`https://clear-fashion-dany123000.vercel.app/products/search?page=${page}&size=${size}`;
+    let response='';
     if(brand!='All brands'){
       query+=`&brand=${brand}`;
     }
@@ -107,11 +107,10 @@ function Favorite(id){
       sectionAddedToFav.appendChild(div);
       }
   }
-  var close = document.getElementsByClassName("closebtn");
-  var i;
-  for (i = 0; i < close.length; i++) {
+  let close = document.getElementsByClassName("closebtn");
+  for (let i = 0; i < close.length; i++) {
     close[i].onclick = function(){
-      var div = this.parentElement;
+      let div = this.parentElement;
       div.style.opacity = "0";
       setTimeout(function(){ div.style.display = "none"; }, 600);
     }
@@ -218,7 +217,7 @@ const renderProducts = (products, setFavorites=false) => {
   }
   for(let i in finalRange){
     const li = document.createElement('li');
-    var template = `
+    let template = `
     <a class="page-link" style="color:green;">${finalRange[i]}</a>
     `
     if(finalRange[i]==currentPage){
