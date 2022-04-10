@@ -1,7 +1,6 @@
 // Invoking strict mode https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode#invoking_strict_mode
 'use strict';
 
-// current products on the page
 var currentProducts = [];
 var currentProductsAllPages = [];
 var allProducts=[];
@@ -165,7 +164,7 @@ const renderProducts = (products, setFavorites=false) => {
     `;
     })
     .join('');
-  div.setAttribute( "class", "row" );
+  div.setAttribute("class", "row");
   div.innerHTML = template;
   fragment.appendChild(div);
   if(!setFavorites){
