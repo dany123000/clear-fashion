@@ -3,6 +3,7 @@
 
 // current products on the page
 let currentProducts = [];
+let currentProductsAllPages = [];
 let currentPagination = {};
 var allProducts=[];
 var allBrands=[];
@@ -35,7 +36,7 @@ const setCurrentProducts = (result, page=selectedPage, size=selectedSize) => {
   currentPagination = {
     "count":allProducts.length,
     "currentPage":page,
-    "pageCount":parseInt(allProducts.length/size) + 1,
+    "pageCount":parseInt(currentProductsAllPages.length/size) + 1,
     "pageSize":size
   };
   selectedPage=page;
@@ -268,6 +269,7 @@ const render = (products, pagination) => {
  */
  selectShow.addEventListener('change', async (event) => {
   const products = await fetchProducts(1, parseInt(event.target.value), selectedBrand, cheap);
+  currentProductsAllPages = await fetchProducts(1, 10000, selectedBrand, cheap);
   setCurrentProducts(products,1,parseInt(event.target.value));
   render(currentProducts, currentPagination);
 });
@@ -285,6 +287,7 @@ pageNumber.addEventListener('click', async (event) => {
   }
   if(number!=='...'){
     const products = await fetchProducts(parseInt(number), selectedSize, selectedBrand, cheap);
+    currentProductsAllPages = await fetchProducts(1, 10000, selectedBrand, cheap);
     setCurrentProducts(products,parseInt(number),selectedSize);
     render(currentProducts, currentPagination);  
   }
@@ -293,6 +296,7 @@ pageNumber.addEventListener('click', async (event) => {
 selectBrand.addEventListener('change', async (event) => {
   selectedBrand = event.target.value;
   const products = await fetchProducts(1, selectedSize, selectedBrand, cheap);
+  currentProductsAllPages = await fetchProducts(1, 10000, selectedBrand, cheap);
   setCurrentProducts(products,1,selectedSize);
   currentBrand = allBrands.indexOf(selectedBrand);
   render(currentProducts, currentPagination);
@@ -313,6 +317,7 @@ function ComparePrices(a,b){
 selectCheap.addEventListener('change', async () => {
   cheap=!cheap;
   var products = await fetchProducts(1, selectedSize, selectedBrand, cheap);
+  currentProductsAllPages = await fetchProducts(1, 10000, selectedBrand, cheap);
   setCurrentProducts(products,1);
   render(currentProducts, currentPagination);
 });
@@ -333,6 +338,7 @@ favoritesFilter.addEventListener('change', async () => {
 
 const sortByPrice = async (desc) => {
   var products = await fetchProducts(1, selectedSize, selectedBrand, cheap);
+  currentProductsAllPages = await fetchProducts(1, 10000, selectedBrand, cheap);
   if(!desc){
     products.sort(ComparePrices);
   }
@@ -345,6 +351,7 @@ const sortByPrice = async (desc) => {
 
 document.addEventListener('DOMContentLoaded', async () => {
   const products = await fetchProducts();
+  currentProductsAllPages = await fetchProducts(1, 10000, selectedBrand, cheap);
   allProducts = await fetchProducts(1,10000);
   allBrands.push("All brands");
   for(let i in allProducts){
