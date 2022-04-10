@@ -4,13 +4,14 @@
 // current products on the page
 var currentProducts = [];
 var currentProductsAllPages = [];
-var currentPagination = {};
 var allProducts=[];
 var allBrands=[];
 var selectedBrand="All brands";
 var currentBrand=0;
 var selectedPage=1;
 var selectedSize=12;
+var productCount=0;
+var pageCount=0;
 var selectedCheap=false;
 var selectedReverse=false;
 var onlyFavorites=false;
@@ -33,19 +34,15 @@ const favoritesFilter = document.querySelector('#favorites-filter');
 const setCurrentProducts = async(page=selectedPage, size=selectedSize, brand=selectedBrand, cheap=false, reverse=false) => {
   currentProducts = await fetchProducts(page, size, brand, cheap, reverse);
   currentProductsAllPages = await fetchProducts(1, 10000, brand, cheap, reverse);
-  currentPagination = {
-    "count":allProducts.length,
-    "currentPage":page,
-    "pageCount":parseInt(currentProductsAllPages.length/size) + 1,
-    "pageSize":size
-  };
+  productCount = allProducts.length;
+  pageCount = parseInt(currentProductsAllPages.length/size) + 1;
   selectedPage = page;
   selectedSize = size;
   selectedBrand = brand;
   currentBrand = allBrands.indexOf(selectedBrand);
   selectedCheap = cheap;
   selectedReverse = reverse;
-  render(currentProducts, currentPagination);
+  render();
 };
 
 /**
@@ -115,7 +112,7 @@ function Favorite(id){
       setTimeout(function(){ div.style.display = "none"; }, 600);
     }
   }
-  render(currentProducts, currentPagination);
+  render();
 }
 
 /**
@@ -193,12 +190,12 @@ const renderProducts = (products, setFavorites=false) => {
  * Render page selector
  */
  const renderPageSelector = () => {
-  const range = [currentPagination.currentPage - 6, currentPagination.currentPage + 6];
+  const range = [selectedPage - 6, selectedPage + 6];
   if(range[0] < 1){
     range[0] = 1;
   }
-  if(range[1] > currentPagination.pageCount){
-    range[1] = currentPagination.pageCount;
+  if(range[1] > pageCount){
+    range[1] = pageCount;
   }
   const finalRange = ['First'];
   if(range[0]!==1){
@@ -208,7 +205,7 @@ const renderProducts = (products, setFavorites=false) => {
   {
     finalRange.push(i);
   }
-  if(range[1]!==currentPagination.pageCount){
+  if(range[1]!==pageCount){
     finalRange.push('...');
   }
   finalRange.push('Last');
@@ -220,7 +217,7 @@ const renderProducts = (products, setFavorites=false) => {
     let template = `
     <a class="page-link" style="color:green;">${finalRange[i]}</a>
     `
-    if(finalRange[i]==currentPagination.currentPage){
+    if(finalRange[i]==selectedPage){
       template = `
       <a class="page-link" style="color:white; background-color:green;">${finalRange[i]}</a>
       `  
@@ -234,7 +231,7 @@ const renderProducts = (products, setFavorites=false) => {
 /**
  * Render brands selector
  */
- const renderBrands = brands => {
+ const renderBrands = (brands) => {
   const options = Array.from(
     brands,
     (value) =>  `<option value="${value}">${value}</option>`
@@ -247,13 +244,13 @@ const renderProducts = (products, setFavorites=false) => {
  * Render page selector
  */
 const renderIndicators = () => {
-  spanNbProducts.innerHTML = currentProductsAllPages.length + '/' + currentPagination.count;
+  spanNbProducts.innerHTML = currentProductsAllPages.length + '/' + productCount;
 };
 
 /**
  * Render list of favorites
  */
- const renderFavorites = favorites => {
+ const renderFavorites = (favorites) => {
   let products = allProducts.filter(x => favorites.includes(x['_id']));
   renderProducts(products, true);
 }
@@ -261,8 +258,8 @@ const renderIndicators = () => {
 const render = () => {
   renderProducts(currentProducts);
   renderBrands(allBrands);
-  renderPageSelector(currentPagination);
-  renderIndicators(currentPagination);
+  renderPageSelector();
+  renderIndicators();
   renderFavorites(document.cookie.split(','));
 };
 
@@ -282,7 +279,7 @@ selectPage.addEventListener('click', async (event) => {
     number = 1;
   }
   if(number=="Last"){
-    number = currentPagination.pageCount;
+    number = pageCount;
   }
   if(number!=='...'){
     setCurrentProducts(parseInt(number), selectedSize, selectedBrand, selectedCheap, selectedReverse);
@@ -303,7 +300,7 @@ sortProducts.addEventListener('change', async(event) => {
 
 favoritesFilter.addEventListener('change', async () => {
   onlyFavorites = !onlyFavorites;
-  render(currentProducts, currentPagination);
+  render();
 })
 
 document.addEventListener('DOMContentLoaded', async () => {
