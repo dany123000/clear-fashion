@@ -7,15 +7,12 @@
   </head>
   <body>
     <h1>Clear fashion</h1>
+    <style>
+      h1{
+        text-align: center;
+      }
+    </style>
     <section id="options">
-      <div id="show">
-        <label for="show-select">Show:</label>
-        <select name="show" id="show-select">
-          <option value="12">12</option>
-          <option value="24">24</option>
-          <option value="48">48</option>
-        </select>
-      </div>
       <div class="container">
         <ul class="pagination" id="page-number">
         </ul>
@@ -23,9 +20,17 @@
           ul {
           margin-left: auto;
           margin-right: auto;
-          width: 30em
+          width: 25em
           }
         </style>
+      </div>
+      <div id="show">
+        <label for="show-select">Show:</label>
+        <select name="show" id="show-select">
+          <option value="12">12</option>
+          <option value="24">24</option>
+          <option value="48">48</option>
+        </select>
       </div>
       <div id="filters">
         <label class="switch" name="cheap" id="cheap">
