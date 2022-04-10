@@ -308,18 +308,6 @@ selectBrand.addEventListener('change', async (event) => {
   render(currentProducts, currentPagination);
 });
 
-function ComparePrices(a,b){
-  if(a['price']<b['price']){
-    return -1;
-  }
-  else if(a['price']>b['price']){
-    return 1;
-  }
-  else{
-    return 0;
-  }
-}
-
 selectCheap.addEventListener('change', async () => {
   cheap=!cheap;
   var products = await fetchProducts(1, selectedSize, selectedBrand, cheap, reverse);
