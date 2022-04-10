@@ -72,43 +72,6 @@ const fetchProducts = async (page = 1, size = 12, brand = 'All brands', cheap=fa
   }
 };
 
-const styleAlert = `
-<style>
-.alert {
-  position: fixed;
-  z-index:1;
-  top: 0;
-  width: 500px;
-  margin: 0 auto;
-  background: white;
-  padding: 10px;
-  background-color: #f44336;
-  color: white;
-  opacity: 1;
-  transition: opacity 0.6s;
-  }
-
-.alert.success {background-color: #04AA6D;}
-.alert.info {background-color: #2196F3;}
-.alert.warning {background-color: #ff9800;}
-
-.closebtn {
-  margin-left: 15px;
-  color: white;
-  font-weight: bold;
-  float: right;
-  font-size: 22px;
-  line-height: 20px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.closebtn:hover {
-  color: black;
-}
-</style>
-`;
-
 function Favorite(id){
   if(!document.cookie.split(',').find(x => x == id)){
     setCookie(id, 7, true);
@@ -117,7 +80,6 @@ function Favorite(id){
     const template = `
     <span class="closebtn">&times;</span>  
     🛒 Article added to favorites!
-    ${styleAlert}
     `
     div.setAttribute("class", "alert success");
     div.innerHTML = template;
@@ -134,7 +96,6 @@ function Favorite(id){
       const template = `
       <span class="closebtn">&times;</span>  
       🗑️ Article removed from favorites!
-      ${styleAlert}
       `
       div.setAttribute("class", "alert");
       div.innerHTML = template;
