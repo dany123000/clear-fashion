@@ -219,11 +219,11 @@ const renderProducts = (products, setFavorites=false) => {
   for(let i in finalRange){
     const li = document.createElement('li');
     var template = `
-    <a class="page-link">${finalRange[i]}</a>
+    <a class="page-link" style="color:green;">${finalRange[i]}</a>
     `
     if(finalRange[i]==currentPage){
       template = `
-      <a class="page-link" style="color:white; background-color:blue;">${finalRange[i]}</a>
+      <a class="page-link" style="color:white; background-color:green;">${finalRange[i]}</a>
       `  
     }
     li.setAttribute("class", "page-item");
@@ -251,7 +251,7 @@ const renderProducts = (products, setFavorites=false) => {
  */
 const renderIndicators = pagination => {
   const {count} = pagination;
-  spanNbProducts.innerHTML = count;
+  spanNbProducts.innerHTML = currentProductsAllPages.length + '/' + count;
 };
 
 const renderFavorites = favorites => {
