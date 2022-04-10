@@ -135,7 +135,7 @@ const getDB = module.exports.getDB = async () => {
     const result = Array.from(await collection.find(ask).toArray()).filter(prod => prod['price']!=null);
     result.sort(ComparePrices);
     if(query.hasOwnProperty("reverse")){
-      result.reverse();
+      result = result.reverse();
     }
     return result.slice(begin,end);
   } catch (error) {
